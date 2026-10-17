@@ -3,464 +3,732 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#fff3fa">
-  <title>tds music atelier ♡</title>
+  <meta name="theme-color" content="#ffd1dc">
+  <meta name="description" content="A soft pink, searchable Tower Defense Simulator audio ID library with one-click copying.">
+  <title>tds sound garden ♡</title>
   <style>
     :root {
-      color-scheme: light dark;
-      --page: light-dark(#fff5fa, #171622);
-      --paper: light-dark(#fffdfd, #211f2d);
-      --paper-2: light-dark(#fff8fc, #292535);
-      --ink: light-dark(#392943, #f7edf9);
-      --muted: light-dark(#806c85, #b9a9c4);
-      --line: light-dark(#f0dce9, #46374d);
-      --pink: light-dark(#f7a8cf, #ffb5d9);
-      --pink-ink: light-dark(#79385d, #421d3d);
-      --lavender: light-dark(#ded5ff, #554970);
-      --mint: light-dark(#d9f4e7, #294d46);
-      --butter: light-dark(#fff0c9, #574930);
-      --shadow: 0 14px 40px light-dark(#9c5d8510, #00000028);
-      --radius: 22px;
+      --white: #ffffff;
+      --pink: #ffd1dc;
+      --pink-soft: #fff0f5;
+      --pink-mid: #ffb7c5;
+      --peach: #ffe4e1;
+      --rose: #e984a0;
+      --rose-deep: #b85b78;
+      --ink: #563c48;
+      --muted: #9d7d8a;
+      --line: #f8dce5;
+      --shadow: 0 12px 32px rgba(229, 140, 166, .14);
+      --shadow-hover: 0 18px 36px rgba(229, 140, 166, .23);
+      --radius: 28px;
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      background: var(--page);
-      color: var(--ink);
-      font-family: ui-rounded, "Trebuchet MS", system-ui, -apple-system, sans-serif;
-      line-height: 1.45;
-    }
-    button, input, select { font: inherit; }
-    button, a, select { -webkit-tap-highlight-color: transparent; }
-    button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible {
-      outline: 3px solid light-dark(#ce82ba, #f0a7dc);
-      outline-offset: 3px;
-    }
-    #app {
-      background-color: var(--page);
-      color: var(--ink);
       min-height: 100vh;
-      border-radius: 0;
-      overflow: hidden;
-      position: relative;
-      isolation: isolate;
+      color: var(--ink);
+      background: var(--white);
+      font-family: "Trebuchet MS", "Arial Rounded MT Bold", system-ui, sans-serif;
+      overflow-x: hidden;
     }
-    #app::before {
+    body::before, body::after {
       content: "";
-      position: absolute;
-      inset: 0 0 auto;
-      height: 520px;
-      pointer-events: none;
+      position: fixed;
       z-index: -1;
-      background:
-        radial-gradient(ellipse at 12% 15%, light-dark(#ffe0ef88, #a04d8a25), transparent 36%),
-        radial-gradient(ellipse at 88% 8%, light-dark(#ddd5ff91, #6d5baf20), transparent 30%),
-        radial-gradient(ellipse at 62% 68%, light-dark(#e1f5e966, #479b8a16), transparent 32%);
+      width: 360px;
+      height: 360px;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(4px);
+      opacity: .42;
     }
-    .shell { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
-    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 23px 0 15px; }
-    .brand { display: flex; align-items: center; gap: 11px; text-decoration: none; color: inherit; min-width: 0; }
-    .brand-mark { display: grid; place-items: center; height: 42px; width: 42px; border-radius: 15px; background: linear-gradient(145deg, #ffc8e3, #d8d0ff); color: #674666; box-shadow: 0 5px 14px #d18bb322; font-size: 23px; transform: rotate(-5deg); }
-    .brand-title { display: block; font-size: 15px; font-weight: 900; letter-spacing: -.035em; }
-    .brand-sub { display: block; color: var(--muted); font-size: 10px; margin-top: 1px; letter-spacing: .12em; text-transform: uppercase; }
-    .top-note { display: flex; align-items: center; gap: 8px; border: 1px solid var(--line); padding: 8px 13px; border-radius: 999px; color: var(--muted); background: light-dark(#ffffffa8, #241f2dbb); font-size: 11px; font-weight: 750; white-space: nowrap; }
-    .top-note .dot { height: 7px; width: 7px; border-radius: 99px; background: #7ac8a9; box-shadow: 0 0 0 4px light-dark(#7ac8a922, #7ac8a918); }
-
-    .hero { position: relative; display: grid; grid-template-columns: 1.25fr .75fr; align-items: center; min-height: 285px; padding: 29px 35px 31px; border: 1px solid var(--line); border-radius: 30px; background: linear-gradient(120deg, light-dark(#fffdfd, #24202f), light-dark(#fff5fb, #302439)); box-shadow: var(--shadow); overflow: hidden; }
-    .hero::after { content: "✦  ·  ♡  ·  ✧"; position: absolute; top: 17px; right: 28px; color: light-dark(#dc91bd, #b586ce); font-size: 14px; letter-spacing: .5em; opacity: .85; }
-    .eyebrow { display: inline-flex; align-items: center; gap: 7px; background: var(--mint); color: light-dark(#386a5c, #c8f6e4); padding: 6px 11px; border-radius: 999px; text-transform: uppercase; font-size: 10px; font-weight: 900; letter-spacing: .13em; }
-    h1 { margin: 16px 0 12px; max-width: 600px; font-size: clamp(32px, 4.6vw, 55px); letter-spacing: -.065em; line-height: .99; font-weight: 950; }
-    h1 .accent { color: light-dark(#d66ca5, #ffadd7); }
-    .hero-copy { max-width: 505px; margin: 0; color: var(--muted); font-size: 14px; }
-    .hero-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
-    .meta-pill { display: inline-flex; align-items: center; gap: 7px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 11px; background: light-dark(#fff, #292432); color: var(--muted); font-size: 11px; font-weight: 750; }
-    .meta-pill strong { color: var(--ink); font-size: 12px; }
-    .hero-art { min-height: 215px; position: relative; display: grid; place-items: center; }
-    .orbit { position: absolute; width: 205px; height: 205px; border: 1px dashed light-dark(#e9b6d5, #8e668e); border-radius: 50%; transform: rotate(-17deg); opacity: .8; }
-    .vinyl { position: relative; z-index: 1; height: 174px; width: 174px; display: grid; place-items: center; border-radius: 50%; background: repeating-radial-gradient(circle, #32283d 0 3px, #453449 4px 6px, #30263a 7px 9px); border: 7px solid light-dark(#f9cee4, #654761); box-shadow: 0 14px 30px #66465b30; animation: slowSpin 28s linear infinite; }
-    .vinyl::after { content: ""; position: absolute; inset: 19px; border: 1px solid #b9a0c055; border-radius: 50%; }
-    .vinyl-label { height: 66px; width: 66px; display: grid; place-items: center; border-radius: 50%; background: linear-gradient(145deg, #ffc6e2, #dad0ff); color: #704968; font-size: 27px; border: 5px solid #f5cbe7; box-shadow: inset 0 0 0 1px #ffffff9c; }
-    .sticker { position: absolute; z-index: 2; display: grid; place-items: center; box-shadow: 0 8px 18px #7f50701d; }
-    .sticker-star { top: 17px; right: 17%; height: 43px; width: 43px; background: var(--butter); border-radius: 14px; transform: rotate(12deg); font-size: 23px; color: light-dark(#ad7d45, #f4d39b); }
-    .sticker-note { bottom: 11px; left: 15%; padding: 9px 13px; background: var(--paper); border: 1px solid var(--line); border-radius: 13px; color: var(--muted); font-size: 11px; font-weight: 850; transform: rotate(-7deg); }
-    .sticker-heart { top: 53px; left: 8%; font-size: 28px; color: light-dark(#e987bd, #ffaad3); transform: rotate(-12deg); }
-    .sparkle { position: absolute; color: light-dark(#c783b4, #e6a3d2); font-size: 18px; }
-    .sparkle.one { right: 9%; bottom: 31px; }
-    .sparkle.two { left: 22%; top: 12px; font-size: 12px; }
-    @keyframes slowSpin { to { transform: rotate(343deg); } }
-
-    .controls { margin-top: 26px; }
-    .search-row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 10px; align-items: center; }
-    .search-wrap { display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 15px; border: 1px solid var(--line); background: var(--paper); border-radius: 17px; box-shadow: 0 6px 20px light-dark(#9b69800a, #00000012); }
-    .search-icon { font-size: 18px; color: var(--muted); }
-    .search-wrap input { width: 100%; border: 0; outline: 0; background: transparent; color: var(--ink); min-width: 0; font-size: 13px; }
-    .search-wrap input::placeholder { color: light-dark(#b39fb8, #8d7d98); }
-    .keyhint { font-size: 10px; border: 1px solid var(--line); border-radius: 6px; padding: 3px 6px; color: var(--muted); white-space: nowrap; }
-    .action-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 45px; border: 1px solid var(--line); border-radius: 14px; padding: 0 15px; cursor: pointer; font-size: 11px; font-weight: 900; color: var(--ink); background: var(--paper); transition: transform .15s ease, box-shadow .15s ease, background .15s ease; }
-    .action-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 18px light-dark(#925a7815, #00000024); }
-    .action-btn.primary { border-color: transparent; background: var(--pink); color: var(--pink-ink); }
-    .action-btn:active { transform: translateY(0) scale(.98); }
-
-    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin: 29px 0 13px; }
-    .section-title { font-size: 19px; font-weight: 950; letter-spacing: -.045em; margin: 0; }
-    .section-sub { font-size: 11px; color: var(--muted); margin: 4px 0 0; }
-    .result-count { font-size: 11px; color: var(--muted); text-align: right; white-space: nowrap; }
-    .result-count strong { color: var(--ink); }
-    .category-row { display: flex; gap: 8px; flex-wrap: wrap; }
-    .category-chip { display: inline-flex; align-items: center; gap: 7px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); color: var(--muted); cursor: pointer; font-size: 11px; font-weight: 850; white-space: nowrap; transition: all .15s ease; }
-    .category-chip:hover { border-color: light-dark(#dea5ca, #a77cab); color: var(--ink); }
-    .category-chip.active { background: light-dark(#f7d3e7, #633955); color: light-dark(#713755, #ffeaf8); border-color: light-dark(#eeb7d8, #845079); }
-    .category-chip .chip-count { opacity: .75; font-size: 10px; }
-    .filter-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 13px; padding: 12px 14px; background: light-dark(#fffafc, #201d2a); border: 1px solid var(--line); border-radius: 15px; }
-    .filter-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
-    .filter-label { font-size: 10px; color: var(--muted); font-weight: 900; text-transform: uppercase; letter-spacing: .11em; white-space: nowrap; }
-    select { max-width: 100%; padding: 6px 29px 6px 10px; border: 1px solid var(--line); border-radius: 9px; color: var(--ink); background-color: var(--paper); font-size: 11px; font-weight: 750; }
-    .favorite-toggle { display: inline-flex; align-items: center; gap: 7px; border: 0; color: var(--muted); background: transparent; cursor: pointer; font-size: 11px; font-weight: 850; white-space: nowrap; padding: 5px 2px; }
-    .favorite-toggle.active { color: light-dark(#c64c8d, #ff9bcf); }
-
-    .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 13px; padding-bottom: 27px; }
-    .track-card { position: relative; min-width: 0; padding: 16px; border-radius: 20px; border: 1px solid var(--line); background: var(--paper); box-shadow: 0 7px 24px light-dark(#9456790a, #00000017); transition: border-color .16s ease, transform .16s ease, box-shadow .16s ease; }
-    .track-card:hover { transform: translateY(-3px); border-color: light-dark(#e2a7cb, #8d668d); box-shadow: 0 13px 30px light-dark(#94567915, #0000002c); }
-    .track-card.spotlight { border-color: light-dark(#ce76aa, #f2a3d1); box-shadow: 0 0 0 3px light-dark(#f6c6e455, #d75fa744), 0 13px 30px #00000010; }
-    .card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
-    .track-overline { display: block; margin-bottom: 6px; color: var(--muted); font-size: 9px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
-    .track-name { margin: 0; font-size: 15px; line-height: 1.2; font-weight: 950; letter-spacing: -.035em; overflow-wrap: anywhere; }
-    .track-group { display: inline-flex; max-width: 100%; margin-top: 9px; padding: 5px 8px; border-radius: 8px; background: var(--paper-2); color: var(--muted); font-size: 9px; font-weight: 850; overflow-wrap: anywhere; }
-    .favorite-btn { flex: 0 0 auto; display: grid; place-items: center; height: 32px; width: 32px; border: 1px solid var(--line); border-radius: 11px; background: var(--paper-2); color: var(--muted); cursor: pointer; font-size: 15px; }
-    .favorite-btn.saved { background: light-dark(#ffe4f0, #63324f); color: light-dark(#c84e91, #ffb0d7); border-color: light-dark(#f4bfdc, #875176); }
-    .ids { display: grid; gap: 7px; margin-top: 16px; }
-    .id-row { display: flex; align-items: center; justify-content: space-between; gap: 7px; padding: 9px 9px 9px 11px; border: 1px solid var(--line); border-radius: 12px; background: light-dark(#fff9fc, #272230); min-width: 0; }
-    .id-main { min-width: 0; }
-    .id-type { display: block; margin-bottom: 2px; color: var(--muted); font-size: 9px; text-transform: uppercase; font-weight: 900; letter-spacing: .09em; }
-    .id-number { display: block; font-size: 12px; font-weight: 850; letter-spacing: .015em; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
-    .id-actions { display: flex; align-items: center; gap: 5px; flex: 0 0 auto; }
-    .mini-btn { display: grid; place-items: center; height: 29px; width: 30px; border: 1px solid var(--line); border-radius: 9px; background: var(--paper); color: var(--muted); cursor: pointer; text-decoration: none; font-size: 12px; transition: all .12s ease; }
-    .mini-btn:hover { background: var(--lavender); color: light-dark(#554369, #fff6ff); border-color: transparent; }
-    .mini-btn.copy:hover { background: var(--mint); color: light-dark(#386452, #d8fff0); }
-    .card-bottom { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 12px; }
-    .id-total { font-size: 10px; color: var(--muted); }
-    .copy-track { display: inline-flex; align-items: center; gap: 6px; border: 0; padding: 5px 0 5px 8px; background: transparent; color: light-dark(#b45a8c, #f2a0cf); font-size: 10px; font-weight: 900; cursor: pointer; }
-    .empty-state { grid-column: 1 / -1; padding: 48px 20px; text-align: center; border: 1px dashed var(--line); border-radius: 22px; background: var(--paper); }
-    .empty-emoji { font-size: 30px; }
-    .empty-state h3 { margin: 10px 0 5px; font-size: 18px; }
-    .empty-state p { color: var(--muted); font-size: 12px; margin: 0 0 16px; }
-    .source-note { padding: 16px 0 32px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 18px; color: var(--muted); font-size: 10px; }
-    .source-note strong { color: var(--ink); }
-    .toast { position: fixed; left: 50%; bottom: 22px; z-index: 10; transform: translate(-50%, 18px); opacity: 0; pointer-events: none; padding: 11px 17px; border-radius: 999px; background: light-dark(#3e2e46, #f8d8eb); color: light-dark(#fff7ff, #42213c); box-shadow: 0 12px 28px #00000022; font-size: 12px; font-weight: 850; transition: opacity .2s ease, transform .2s ease; max-width: calc(100vw - 30px); text-align: center; }
+    body::before { top: -180px; left: -150px; background: radial-gradient(circle, #fff0f5 0, rgba(255,240,245,0) 70%); }
+    body::after { right: -150px; bottom: -190px; background: radial-gradient(circle, #ffe4e1 0, rgba(255,228,225,0) 70%); }
+    button, input { font: inherit; }
+    button { -webkit-tap-highlight-color: transparent; }
+    button:focus-visible, input:focus-visible { outline: 3px solid #f3a3b7; outline-offset: 3px; }
+    .topline { padding: 10px 18px; background: var(--pink-soft); border-bottom: 1px solid #fbe0e8; text-align: center; color: #a7657b; font-size: 11px; font-weight: 900; letter-spacing: .13em; text-transform: uppercase; }
+    .topline .tiny-heart { color: var(--rose); margin: 0 7px; }
+    .page-head { max-width: 1520px; margin: 0 auto; padding: 22px 28px 4px; }
+    .brand-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .brand-mark { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 18px; color: #fff; background: linear-gradient(145deg, #ffb7c5, #f28eaa); box-shadow: 0 7px 18px #f6b8c8a8; font-size: 25px; transform: rotate(-7deg); flex: 0 0 auto; }
+    .brand-word { font-size: 13px; line-height: 1.2; color: var(--rose-deep); font-weight: 900; letter-spacing: .16em; text-transform: uppercase; }
+    .brand-sub { margin-top: 5px; font-size: 11px; color: var(--muted); letter-spacing: .04em; }
+    .header-pill { border: 1px solid var(--line); border-radius: 999px; color: #b56e85; background: #fff; font-size: 11px; font-weight: 800; padding: 10px 14px; white-space: nowrap; box-shadow: 0 5px 16px rgba(229,140,166,.08); }
+    .hero { text-align: center; padding: 18px 12px 20px; }
+    .eyebrow { color: #d68aa0; letter-spacing: .2em; text-transform: uppercase; font-size: 10px; font-weight: 900; }
+    h1 { font-size: clamp(36px, 5.1vw, 62px); letter-spacing: -.055em; line-height: 1; margin: 12px 0 10px; color: #754b5a; font-weight: 1000; }
+    h1 .accent { color: #f18fac; position: relative; display: inline-block; }
+    h1 .accent::after { content: "♡"; position: absolute; top: -13px; right: -20px; font-size: 21px; color: #ffb7c5; transform: rotate(13deg); }
+    .hero p { color: #9e7d89; max-width: 620px; margin: 0 auto; font-size: 13px; line-height: 1.7; }
+    .hero-note { display: inline-flex; align-items: center; gap: 7px; margin-top: 13px; background: var(--pink-soft); border: 1px solid #fce0e8; color: #af6d83; border-radius: 999px; padding: 7px 12px; font-size: 10px; font-weight: 800; }
+    .layout { max-width: 1520px; margin: 0 auto; display: grid; grid-template-columns: minmax(165px, 218px) minmax(0, 1fr) minmax(165px, 218px); gap: 21px; align-items: start; padding: 10px 28px 54px; }
+    .companion { position: sticky; top: 18px; overflow: hidden; border: 1px solid #f8dfe7; border-radius: 30px; background: linear-gradient(180deg, #fff0f5 0%, #fff 68%); box-shadow: var(--shadow); padding: 16px 13px 17px; text-align: center; }
+    .companion.right { background: linear-gradient(180deg, #fff2ec 0%, #fff 70%); }
+    .bubble { position: relative; border-radius: 22px; border: 1px solid #f5d6e0; background: #fff; color: #956477; box-shadow: 0 7px 19px rgba(227, 141, 166, .12); font-size: 12px; font-weight: 800; line-height: 1.5; padding: 12px 13px; margin: 0 0 14px; min-height: 58px; display: grid; place-items: center; transition: transform .25s ease, background .25s ease; }
+    .bubble::after { content: ""; position: absolute; left: calc(50% - 7px); bottom: -7px; width: 12px; height: 12px; background: #fff; border-right: 1px solid #f5d6e0; border-bottom: 1px solid #f5d6e0; transform: rotate(45deg); }
+    .bubble.pop { transform: translateY(-3px) scale(1.02); background: #fff8fb; }
+    .gif-window { min-height: 205px; display: grid; place-items: center; position: relative; overflow: hidden; }
+    .gif-window::before { content: ""; position: absolute; width: 160px; height: 160px; border-radius: 50%; background: radial-gradient(circle, #ffdbe5 0%, #fff0f5 58%, rgba(255,240,245,0) 72%); }
+    .right .gif-window::before { background: radial-gradient(circle, #ffe3d8 0%, #fff3ec 58%, rgba(255,243,236,0) 72%); }
+    .companion-gif { position: absolute; inset: 0; margin: auto; z-index: 2; width: 100%; max-width: 190px; height: 200px; object-fit: contain; filter: drop-shadow(0 10px 8px rgba(215, 125, 151, .16)); animation: mascot-float 4.4s ease-in-out infinite; }
+    .right .companion-gif { animation-delay: -1.4s; }
+    .mascot-label { margin-top: 6px; color: #bf8095; text-transform: uppercase; font-size: 9px; letter-spacing: .17em; font-weight: 900; }
+    .mascot-name { font-size: 16px; color: #805465; font-weight: 1000; margin-top: 5px; }
+    .mascot-caption { font-size: 11px; color: #a98b96; line-height: 1.6; margin: 7px 3px 0; }
+    .mini-stat { margin-top: 14px; display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; }
+    .mini-stat span { border: 1px solid #f6dce5; border-radius: 999px; background: white; color: #ad778a; padding: 6px 9px; font-size: 9px; font-weight: 900; }
+    .main-panel { min-width: 0; }
+    .search-panel { border: 1px solid #f7dce5; border-radius: 30px; background: rgba(255,255,255,.94); padding: 16px; box-shadow: var(--shadow); }
+    .search-label { font-size: 10px; color: #b67d91; text-transform: uppercase; letter-spacing: .16em; font-weight: 1000; display: block; margin: 1px 0 10px 3px; }
+    .search-row { display: flex; align-items: center; gap: 10px; }
+    .searchbox { flex: 1; min-width: 0; position: relative; }
+    .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 18px; color: #dc8ca4; pointer-events: none; }
+    #searchInput { width: 100%; border: 1px solid #f4d5df; background: #fff9fb; border-radius: 20px; padding: 15px 16px 15px 45px; color: var(--ink); font-size: 13px; transition: border .2s ease, box-shadow .2s ease, background .2s ease; }
+    #searchInput::placeholder { color: #c4a4af; }
+    #searchInput:focus { background: white; border-color: #f3adbf; box-shadow: 0 0 0 4px #fff0f5; outline: 0; }
+    .button { border: 1px solid #f3d0dc; border-radius: 17px; background: #fff; color: #b36d84; padding: 13px 14px; font-size: 11px; font-weight: 900; cursor: pointer; transition: transform .18s ease, box-shadow .18s ease, background .18s ease; white-space: nowrap; }
+    .button:hover { background: var(--pink-soft); box-shadow: 0 6px 14px rgba(229,140,166,.16); transform: translateY(-2px); }
+    .button:active { transform: translateY(0) scale(.98); }
+    .button.primary { color: white; border-color: transparent; background: linear-gradient(135deg, #ffb7c5, #f28eaa); box-shadow: 0 7px 16px rgba(235, 139, 163, .22); }
+    .button.primary:hover { background: linear-gradient(135deg, #ffaabe, #ec7f9e); }
+    .filter-top { margin-top: 15px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .filter-caption { color: #b68a99; font-size: 10px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+    .filter-actions { display: flex; gap: 7px; flex-wrap: wrap; }
+    .tiny-button { background: white; border: 1px solid #f5dce4; color: #ad7b8b; border-radius: 999px; padding: 7px 10px; font-size: 10px; font-weight: 900; cursor: pointer; transition: .2s ease; }
+    .tiny-button:hover, .tiny-button.active { background: #fff0f5; color: #ba6681; border-color: #ffc4d2; }
+    .category-bar { display: flex; gap: 7px; overflow-x: auto; padding: 12px 0 2px; scrollbar-width: thin; scrollbar-color: #f3bdcc transparent; }
+    .category-chip { flex: 0 0 auto; background: #fff; color: #a98592; border: 1px solid #f4dce4; border-radius: 999px; padding: 8px 11px; font-size: 10px; font-weight: 900; cursor: pointer; transition: .18s ease; }
+    .category-chip:hover { border-color: #f0b5c5; background: #fff8fb; }
+    .category-chip.active { background: #ffdce5; border-color: #ffc1d0; color: #9f5871; box-shadow: 0 4px 10px rgba(241,151,176,.12); }
+    .result-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 21px 3px 12px; }
+    .result-title { margin: 0; font-size: 17px; letter-spacing: -.03em; font-weight: 1000; color: #805565; }
+    .result-sub { margin-top: 4px; font-size: 10px; color: #af8c99; }
+    .count-pill { flex: 0 0 auto; color: #b16a83; background: var(--pink-soft); border: 1px solid #f9dce5; padding: 8px 11px; border-radius: 999px; font-size: 10px; font-weight: 1000; }
+    .track-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px; }
+    .track-card { position: relative; overflow: hidden; min-width: 0; border: 1px solid #f7dce5; border-radius: 25px; background: #fff; padding: 15px; box-shadow: 0 8px 20px rgba(230, 150, 172, .09); animation: card-arrive .34s ease both; transition: transform .23s ease, box-shadow .23s ease, border-color .23s ease; }
+    .track-card::before { content: ""; position: absolute; top: -46px; right: -40px; width: 112px; height: 112px; border-radius: 50%; background: #fff0f5; opacity: .75; transition: transform .4s ease; }
+    .track-card::after { content: ""; position: absolute; left: -70%; top: 0; width: 45%; height: 100%; transform: skewX(-20deg); background: linear-gradient(90deg, transparent, rgba(255,255,255,.8), transparent); transition: left .6s ease; pointer-events: none; }
+    .track-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); border-color: #f4b9c9; }
+    .track-card:hover::before { transform: scale(1.25); }
+    .track-card:hover::after { left: 130%; }
+    .track-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 7px; position: relative; z-index: 1; }
+    .track-kicker { color: #d08da2; font-size: 9px; font-weight: 1000; letter-spacing: .13em; text-transform: uppercase; }
+    .kind-badge { flex: 0 0 auto; border: 1px solid #f8dce5; background: #fff8fb; color: #b4788d; border-radius: 999px; font-size: 9px; font-weight: 1000; padding: 5px 8px; }
+    .track-title { position: relative; z-index: 1; color: #6f4a58; font-size: 15px; line-height: 1.35; margin: 10px 0 7px; font-weight: 1000; overflow-wrap: anywhere; }
+    .track-category { position: relative; z-index: 1; min-height: 26px; color: #aa8995; font-size: 10px; line-height: 1.45; overflow-wrap: anywhere; }
+    .id-label { margin: 13px 0 7px; font-size: 9px; color: #c28a9b; font-weight: 1000; letter-spacing: .14em; text-transform: uppercase; position: relative; z-index: 1; }
+    .id-bubble { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 8px; text-align: left; border: 1px dashed #f0afc1; background: #fff4f7; color: #a65974; padding: 10px 11px; border-radius: 15px; cursor: pointer; position: relative; z-index: 1; transition: .18s ease; }
+    .id-bubble:hover { background: #ffe7ee; border-style: solid; border-color: #f0a3b7; transform: translateY(-1px); }
+    .id-number { font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; font-size: 12px; font-weight: 900; letter-spacing: -.03em; overflow-wrap: anywhere; }
+    .copy-mark { flex: 0 0 auto; font-size: 14px; }
+    .card-bottom { display: flex; gap: 7px; margin-top: 10px; position: relative; z-index: 1; }
+    .copy-button { flex: 1; border: 0; border-radius: 13px; background: #ffdce5; color: #9e5870; padding: 10px; font-size: 10px; font-weight: 1000; cursor: pointer; transition: .2s ease; }
+    .copy-button:hover { background: #ffc4d2; transform: translateY(-1px); }
+    .favorite-button { width: 38px; flex: 0 0 38px; border: 1px solid #f4d7e0; border-radius: 13px; background: white; color: #d28ba0; font-size: 17px; cursor: pointer; transition: .2s ease; }
+    .favorite-button:hover, .favorite-button.is-favorite { background: #fff0f5; color: #ed7798; border-color: #f6bdce; }
+    .empty-state { grid-column: 1 / -1; padding: 40px 20px; border: 1px dashed #f1c9d5; border-radius: 27px; text-align: center; background: #fffafc; color: #a47c8b; }
+    .empty-heart { font-size: 32px; color: #f1a5b8; }
+    .empty-state h3 { margin: 8px 0; font-size: 17px; color: #8d5f70; }
+    .empty-state p { margin: 0; font-size: 12px; line-height: 1.6; }
+    .footer-note { text-align: center; padding: 20px 10px 0; font-size: 10px; color: #b79aa5; line-height: 1.8; }
+    .footer-note strong { color: #c07a91; }
+    .toast { position: fixed; left: 50%; bottom: 22px; transform: translate(-50%, 20px); background: #744f60; color: white; border: 1px solid rgba(255,255,255,.4); border-radius: 999px; padding: 12px 18px; box-shadow: 0 14px 35px rgba(93,54,70,.22); font-size: 12px; font-weight: 900; z-index: 99; opacity: 0; pointer-events: none; transition: opacity .22s ease, transform .22s ease; text-align: center; max-width: calc(100vw - 28px); }
     .toast.show { opacity: 1; transform: translate(-50%, 0); }
-    .footer-heart { color: #df7daf; }
-
-    @media (max-width: 900px) {
-      .hero { grid-template-columns: 1.15fr .75fr; padding: 26px; }
-      .hero-art { transform: scale(.9); }
-      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .search-row { grid-template-columns: minmax(0, 1fr) auto; }
-      .search-row .primary { grid-column: 1 / -1; }
+    .sparkle-layer { position: fixed; inset: 0; overflow: hidden; z-index: 80; pointer-events: none; }
+    .sparkle { position: absolute; line-height: 1; color: #f08ca9; font-size: 16px; animation: sparkle-pop .8s ease-out forwards; text-shadow: 0 1px white; }
+    .float-heart { position: absolute; z-index: 0; pointer-events: none; color: #f6bfd0; opacity: .6; animation: drift-up 7s ease-in-out infinite; }
+    .bottom-decoration { text-align: center; color: #e0a0b2; font-size: 14px; letter-spacing: .5em; margin: 3px 0 0; }
+    @keyframes mascot-float { 0%,100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-8px) rotate(1deg); } }
+    @keyframes card-arrive { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes sparkle-pop { 0% { opacity: 0; transform: translate(0, 8px) scale(.3) rotate(0); } 18% { opacity: 1; } 100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(1.4) rotate(90deg); } }
+    @keyframes drift-up { 0%,100% { transform: translateY(0) rotate(-8deg); } 50% { transform: translateY(-18px) rotate(8deg); } }
+    @media (min-width: 1300px) { .track-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    @media (max-width: 1050px) {
+      .layout { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 850px; gap: 12px; }
+      .layout > .companion:not(.right) { grid-column: 1; grid-row: 1; }
+      .layout > .companion.right { grid-column: 2; grid-row: 1; }
+      .layout > .main-panel { grid-column: 1 / -1; grid-row: 2; }
+      .companion { display: block; position: relative; top: auto; min-width: 0; padding: 12px 8px 13px; }
+      .bubble { font-size: 10px; min-height: 50px; padding: 9px 8px; margin-bottom: 8px; }
+      .gif-window { min-height: 154px; }
+      .companion-gif { max-width: 145px; height: 155px; }
+      .mascot-label { font-size: 8px; }
+      .mascot-name { font-size: 14px; }
+      .mascot-caption { font-size: 10px; }
+      .mini-stat { margin-top: 9px; }
+      .track-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
-    @media (max-width: 620px) {
-      .shell { width: min(100% - 24px, 520px); }
-      .topbar { padding-top: 15px; }
-      .brand-mark { height: 37px; width: 37px; border-radius: 13px; }
-      .top-note { font-size: 9px; padding: 7px 9px; }
-      .hero { display: block; padding: 24px 20px 12px; border-radius: 24px; }
-      .hero::after { right: 12px; top: 12px; font-size: 10px; }
-      h1 { font-size: clamp(34px, 10vw, 48px); max-width: 410px; margin-top: 15px; }
-      .hero-copy { font-size: 12px; }
-      .hero-meta { margin-top: 15px; }
-      .meta-pill { font-size: 10px; }
-      .hero-art { min-height: 188px; margin-top: 3px; transform: scale(.84); transform-origin: center top; margin-bottom: -22px; }
-      .search-row { grid-template-columns: minmax(0, 1fr) auto; gap: 7px; }
-      .search-wrap { min-height: 47px; gap: 7px; padding: 0 11px; }
-      .search-wrap input { font-size: 12px; }
-      .keyhint { display: none; }
-      .action-btn { padding: 0 11px; min-height: 42px; font-size: 10px; }
-      .search-row .primary { grid-column: auto; }
-      #randomBtn { grid-column: 1 / -1; }
-      .section-head { align-items: start; margin-top: 24px; }
-      .section-title { font-size: 17px; }
-      .section-sub { max-width: 245px; line-height: 1.4; }
-      .result-count { font-size: 10px; }
-      .category-row { flex-wrap: nowrap; overflow-x: auto; padding: 1px 1px 7px; scrollbar-width: thin; }
-      .category-chip { padding: 8px 11px; font-size: 10px; }
-      .filter-row { align-items: flex-start; flex-direction: column; padding: 10px 12px; }
-      .filter-left { width: 100%; }
-      .filter-left select { flex: 1; min-width: 0; }
-      .grid { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+    @media (max-width: 600px) {
+      .page-head { padding: 16px 14px 2px; }
+      .layout { padding: 8px 13px 38px; gap: 10px; }
+      .header-pill { display: none; }
+      .brand-mark { width: 42px; height: 42px; border-radius: 15px; }
+      h1 { font-size: clamp(36px, 11vw, 50px); }
+      .hero { padding-top: 22px; }
+      .hero p { font-size: 12px; }
+      .companion { border-radius: 23px; padding: 10px 7px 11px; }
+      .bubble { font-size: 9px; line-height: 1.4; min-height: 48px; padding: 8px 6px; overflow-wrap: anywhere; }
+      .gif-window { min-height: 132px; }
+      .gif-window::before { width: 116px; height: 116px; }
+      .companion-gif { max-width: 120px; height: 132px; }
+      .mascot-caption { font-size: 9px; line-height: 1.45; }
+      .mini-stat span { padding: 5px 6px; font-size: 8px; }
+      .search-panel { padding: 12px; border-radius: 24px; }
+      .search-row { align-items: stretch; }
+      .searchbox { min-width: 0; }
+      #searchInput { padding-top: 13px; padding-bottom: 13px; }
+      .search-row .button { padding: 10px 12px; }
+      .filter-top { align-items: flex-start; }
+      .filter-actions { width: 100%; }
+      .track-grid { grid-template-columns: 1fr; }
       .track-card { padding: 15px; }
-      .track-name { font-size: 15px; }
-      .source-note { flex-direction: column; gap: 6px; }
+      .track-title { font-size: 16px; }
+      .result-title { font-size: 16px; }
     }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
   </style>
 </head>
 <body>
-  <main id="app">
-    <div class="shell">
-      <header class="topbar">
-        <a class="brand" href="#top" aria-label="tds music atelier home">
-          <span class="brand-mark">✿</span>
-          <span><span class="brand-title">tds music atelier</span><span class="brand-sub">a fan-made audio index</span></span>
-        </a>
-        <div class="top-note"><span class="dot"></span> lovingly filed, ready to copy</div>
-      </header>
+  <div class="topline"><span class="tiny-heart">♥</span> tower defense simulator audio collection <span class="tiny-heart">♥</span></div>
+  <header class="page-head">
+    <div class="brand-row">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">♫</div>
+        <div><div class="brand-word">pink noise club</div><div class="brand-sub">a tiny music-id library for tds</div></div>
+      </div>
+      <div class="header-pill">♡ made for your custom dj ♡</div>
+    </div>
+    <div class="hero">
+      <div class="eyebrow">♡ your playlist, but cuter ♡</div>
+      <h1>tds sound <span class="accent">garden</span></h1>
+      <p>find your favorite tower defense simulator audio IDs, tap a little pink bubble, and copy them in one click. easy peasy, extra dreamy.</p>
+      <div class="hero-note"><span>✦</span> full library loaded <span id="heroCount">241</span> audio IDs <span>✦</span></div>
+    </div>
+  </header>
 
-      <section class="hero" id="top" aria-labelledby="hero-title">
-        <div class="hero-text">
-          <span class="eyebrow">♡ custom dj gamepass helper</span>
-          <h1 id="hero-title">your tiny<br><span class="accent">soundtrack</span> library</h1>
-          <p class="hero-copy">a pastel little corner for your tds music ids. search a track, copy an intro or music id, and hop straight to its roblox asset page.</p>
-          <div class="hero-meta">
-            <span class="meta-pill"><strong id="heroIds">241</strong> audio ids</span>
-            <span class="meta-pill"><strong id="heroTracks">179</strong> track cards</span>
-            <span class="meta-pill">✧ 7 little shelves</span>
+  <main class="layout">
+    <aside class="companion" aria-label="left DJ companion">
+      <div id="speechBubble" class="bubble" aria-live="polite">ready to blast some beats? ♡</div>
+      <div class="gif-window">
+        <img class="companion-gif" src="1.gif" alt="mimi the DJ companion gif" loading="eager" onerror="this.remove()">
+      </div>
+      <div class="mascot-label">your main companion</div>
+      <div class="mascot-name">mimi ♡</div>
+      <div class="mascot-caption">tiny headphones, giant playlist energy. tap any ID and i'll help you snag it!</div>
+      <div class="mini-stat"><span>♪ music</span><span>♡ sparkle</span></div>
+    </aside>
+
+    <section class="main-panel" aria-label="searchable TDS audio ID dashboard">
+      <div class="search-panel">
+        <label class="search-label" for="searchInput">find your next favorite sound</label>
+        <div class="search-row">
+          <div class="searchbox"><span class="search-icon" aria-hidden="true">⌕</span><input id="searchInput" type="search" autocomplete="off" placeholder="search a song, mode, event, or ID..." aria-label="Search track title, category, or asset ID"></div>
+          <button id="randomButton" class="button primary" type="button" title="Pick a random track">surprise me ✦</button>
+        </div>
+        <div class="filter-top">
+          <span class="filter-caption">choose your sound shelf</span>
+          <div class="filter-actions">
+            <button id="favoritesToggle" class="tiny-button" type="button" aria-pressed="false">♡ favorites only</button>
+            <button id="clearButton" class="tiny-button" type="button">clear search ↺</button>
           </div>
         </div>
-        <div class="hero-art" aria-hidden="true">
-          <div class="orbit"></div>
-          <div class="vinyl"><div class="vinyl-label">✿</div></div>
-          <div class="sticker sticker-star">✦</div>
-          <div class="sticker sticker-note">♪ intro + music ♡</div>
-          <div class="sticker-heart">♡</div>
-          <span class="sparkle one">✧</span><span class="sparkle two">✦</span>
-        </div>
-      </section>
+        <div id="categoryBar" class="category-bar" aria-label="Filter by audio collection"></div>
+      </div>
+      <div class="result-row">
+        <div><h2 class="result-title">the music shelf</h2><div id="resultSub" class="result-sub">little treasures for your custom DJ</div></div>
+        <div id="resultCount" class="count-pill" aria-live="polite">241 tracks</div>
+      </div>
+      <div id="trackGrid" class="track-grid" aria-live="polite"></div>
+      <div class="footer-note">all IDs are copied as plain numbers, ready to paste into roblox.<br><strong>source note:</strong> names and IDs come from the provided TDS OST list; categories follow its section headings.</div>
+      <div class="bottom-decoration" aria-hidden="true">♡ ✦ ♡ ✦ ♡</div>
+    </section>
 
-      <section class="controls" aria-label="music library controls">
-        <div class="search-row">
-          <label class="search-wrap" for="searchInput">
-            <span class="search-icon">⌕</span>
-            <input id="searchInput" type="search" placeholder="try ‘fallen king’, ‘intro’, or an id…" autocomplete="off" spellcheck="false">
-            <span class="keyhint">search</span>
-          </label>
-          <button class="action-btn" id="randomBtn" type="button">✧ surprise me</button>
-          <button class="action-btn primary" id="copyVisibleBtn" type="button">▣ copy results</button>
-        </div>
-
-        <div class="section-head">
-          <div><h2 class="section-title">the music shelves</h2><p class="section-sub">everything from lobby themes to the dramatic boss music arc</p></div>
-          <div class="result-count" id="resultCount" aria-live="polite"><strong>179</strong> tracks · <strong>241</strong> ids</div>
-        </div>
-        <nav class="category-row" id="categoryRow" aria-label="filter by category"></nav>
-        <div class="filter-row">
-          <div class="filter-left"><span class="filter-label">narrow shelf</span><select id="groupSelect" aria-label="filter by track group"><option value="all">all subcategories</option></select></div>
-          <button class="favorite-toggle" id="favoritesToggle" type="button" aria-pressed="false">♡ show saved tracks <span id="favoriteCount">0</span></button>
-        </div>
-      </section>
-
-      <section class="grid" id="trackGrid" aria-label="music id results"></section>
-
-      <footer class="source-note">
-        <span><strong>source:</strong> your uploaded “tds ost music ids” pdf. names and ids are carried over from the document.</span>
-        <span>fan-made reference · roblox asset availability and permissions may vary <span class="footer-heart">♥</span></span>
-      </footer>
-    </div>
-    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <aside class="companion right" aria-label="right DJ companion">
+      <div class="bubble">pick a vibe, i'll keep the sparkle going! ✧</div>
+      <div class="gif-window">
+        <img class="companion-gif" src="2.gif" alt="yuki the DJ companion gif" loading="eager" onerror="this.remove()">
+      </div>
+      <div class="mascot-label">your backup DJ</div>
+      <div class="mascot-name">yuki ♡</div>
+      <div class="mascot-caption">somewhere between boss music and a pink little daydream.</div>
+      <div class="mini-stat"><span>♪ custom DJ</span><span>✧ good vibes</span></div>
+    </aside>
   </main>
+
+  <div id="sparkleLayer" class="sparkle-layer" aria-hidden="true"></div>
+  <div id="toast" class="toast" role="status" aria-live="polite">copied to clipboard! ~nya ♡</div>
+
   <script>
-    const tracks = [{"name":"Triumph Music","category":"Lobby & Other","group":"Lobby / Intermission","ids":[{"type":"Audio","id":"8013047518"}]},{"name":"Summer Lobby","category":"Lobby & Other","group":"Lobby / Intermission","ids":[{"type":"Audio","id":"5573843996"}]},{"name":"2019 Triumph Music","category":"Lobby & Other","group":"Lobby / Intermission","ids":[{"type":"Audio","id":"9166996099"}]},{"name":"2022 Lobby Music","category":"Lobby & Other","group":"Lobby / Intermission","ids":[{"type":"Audio","id":"9744907652"}]},{"name":"Solar Eclipse Lobby","category":"Lobby & Other","group":"Lobby / Intermission","ids":[{"type":"Audio","id":"7653200934"}]},{"name":"Spring lobby","category":"Lobby & Other","group":"Lobby / Intermission","ids":[{"type":"Audio","id":"4820742275"}]},{"name":"Alternative Summer (2020)","category":"Lobby & Other","group":"Lobby / Intermission","ids":[{"type":"Audio","id":"5187327027"}]},{"name":"Alt Alternative Summer (2020)","category":"Lobby & Other","group":"Lobby / Intermission","ids":[{"type":"Audio","id":"5181923930"}]},{"name":"Winter19 Lobby","category":"Lobby & Other","group":"Lobby / Intermission","ids":[{"type":"Intro","id":"4496978756"},{"type":"Music","id":"4496979128"}]},{"name":"Intermission Theme","category":"Lobby & Other","group":"Lobby / Intermission","ids":[{"type":"Audio","id":"11880450174"}]},{"name":"Old Difficulty Vote","category":"Lobby & Other","group":"Lobby / Intermission","ids":[{"type":"Audio","id":"4515464807"}]},{"name":"Lose Theme(2022)","category":"Lobby & Other","group":"Lobby / Intermission","ids":[{"type":"Audio","id":"9734369769"}]},{"name":"Lose Theme(2020)","category":"Lobby & Other","group":"Lobby / Intermission","ids":[{"type":"Audio","id":"5842740900"}]},{"name":"Difficulty Vote Theme","category":"Lobby & Other","group":"Lobby / Intermission","ids":[{"type":"Audio","id":"9166992103"}]},{"name":"Hidden Wave","category":"Lobby & Other","group":"Lobby / Intermission","ids":[{"type":"Audio","id":"9166992574"}]},{"name":"Metaverse","category":"Lobby & Other","group":"Lobby / Intermission","ids":[{"type":"Audio","id":"6777198646"}]},{"name":"Winter Solitude","category":"Lobby & Other","group":"Lobby / Intermission","ids":[{"type":"Audio","id":"4539879806"}]},{"name":"Tutorial Soundtrack","category":"Lobby & Other","group":"Lobby / Intermission","ids":[{"type":"Intro","id":"16628978965"},{"type":"Music","id":"16628977350"}]},{"name":"BrainRot mode Theme","category":"Lobby & Other","group":"Lobby / Intermission","ids":[{"type":"Audio","id":"16973314057"}]},{"name":"Grave Buster","category":"Survival Modes","group":"Easy Mode","ids":[{"type":"Audio","id":"5891402100"}]},{"name":"Molten Boss OLD Theme","category":"Survival Modes","group":"Molten Mode","ids":[{"type":"Audio","id":"9166995469"}]},{"name":"Meltdown","category":"Survival Modes","group":"Molten Mode","ids":[{"type":"Audio","id":"10368961856"}]},{"name":"Heatwave","category":"Survival Modes","group":"Molten Mode","ids":[{"type":"Intro","id":"89266506024071"},{"type":"Music","id":"80038108540826"}]},{"name":"Infernal Torment","category":"Survival Modes","group":"Molten Mode","ids":[{"type":"Intro","id":"92736487811155"},{"type":"Music","id":"123963808249627"}]},{"name":"The Molten Dawn","category":"Survival Modes","group":"Molten Mode","ids":[{"type":"Intro","id":"119321492814934"},{"type":"Music","id":"106762653332419"}]},{"name":"Containment Breach","category":"Survival Modes","group":"Intermediate Mode","ids":[{"type":"Intro","id":"17372904176"},{"type":"Music","id":"17372906154"}]},{"name":"The Final Experiment","category":"Survival Modes","group":"Intermediate Mode","ids":[{"type":"Intro","id":"17372907108"},{"type":"Music","id":"17372909272"}]},{"name":"Synesthesia","category":"Survival Modes","group":"Intermediate Mode","ids":[{"type":"Intro","id":"137791237433530"},{"type":"Music","id":"113823423501038"}]},{"name":"Biohazard","category":"Survival Modes","group":"Intermediate Mode","ids":[{"type":"Music","id":"138460849249861"}]},{"name":"Oasis Plague","category":"Survival Modes","group":"Intermediate Mode","ids":[{"type":"Intro","id":"119892588627801"},{"type":"Music","id":"115889854397438"}]},{"name":"Drezzed","category":"Survival Modes","group":"Intermediate Mode","ids":[{"type":"Music","id":"82498986275770"}]},{"name":"Sound the Alarm!","category":"Survival Modes","group":"Intermediate Mode","ids":[{"type":"Intro","id":"82803817099216"},{"type":"Music","id":"107538662024667"}]},{"name":"Funky Zombie","category":"Survival Modes","group":"Intermediate Mode","ids":[{"type":"Music","id":"110315603393127"}]},{"name":"Golden Titan","category":"Survival Modes","group":"Golden Mode","ids":[{"type":"Intro","id":"10368967118"},{"type":"Music","id":"10368968721"}]},{"name":"Fallen King OLD Theme","category":"Survival Modes","group":"Fallen Mode","ids":[{"type":"Audio","id":"9166994305"}]},{"name":"Void Step","category":"Survival Modes","group":"Fallen Mode","ids":[{"type":"Intro","id":"10368963512"},{"type":"Music","id":"10368965552"}]},{"name":"Melancholy Hill","category":"Survival Modes","group":"Ambiences","ids":[{"type":"Intro","id":"18740883612"},{"type":"Music","id":"18740883259"}]},{"name":"Rain Dance","category":"Survival Modes","group":"Ambiences","ids":[{"type":"Intro","id":"18740928913"},{"type":"Music","id":"18740928265"}]},{"name":"Rebelution","category":"Survival Modes","group":"Ambiences","ids":[{"type":"Intro","id":"18740946313"},{"type":"Music","id":"18740945935"}]},{"name":"The Horde","category":"Survival Modes","group":"Ambiences","ids":[{"type":"Intro","id":"18740974886"},{"type":"Music","id":"18740973719"}]},{"name":"Intro the Void","category":"Survival Modes","group":"Ambiences","ids":[{"type":"Audio","id":"18740982059"}]},{"name":"Art Of War","category":"Survival Modes","group":"Ambiences","ids":[{"type":"Audio","id":"18741552753"}]},{"name":"Fill Them With Lead","category":"Survival Modes","group":"Ambiences","ids":[{"type":"Audio","id":"18741757938"}]},{"name":"Neuro Raze","category":"Survival Modes","group":"Ambiences","ids":[{"type":"Intro","id":"18741777652"},{"type":"Music","id":"18741776972"}]},{"name":"Shellshock","category":"Survival Modes","group":"Ambiences","ids":[{"type":"Audio","id":"18741787613"}]},{"name":"Catharsis","category":"Survival Modes","group":"Ambiences","ids":[{"type":"Audio","id":"18741856468"}]},{"name":"Desolate Dystopia","category":"Survival Modes","group":"Ambiences","ids":[{"type":"Intro","id":"18741860157"},{"type":"Music","id":"18741862670"}]},{"name":"Portal to Hell","category":"Survival Modes","group":"Ambiences","ids":[{"type":"Intro","id":"18741973989"},{"type":"Music","id":"18742060365"}]},{"name":"Equinox","category":"Survival Modes","group":"Hidden Wave","ids":[{"type":"Intro","id":"18667693236"},{"type":"Music","id":"18667692957"}]},{"name":"Hidden Wave Intro","category":"Survival Modes","group":"Hidden Wave","ids":[{"type":"Intro","id":"18710495830"},{"type":"Music","id":"18710495452"}]},{"name":"They’re Mutated","category":"Special Modes","group":"Polluted Wastelands","ids":[{"type":"Audio","id":"10368958054"}]},{"name":"Waste Water","category":"Special Modes","group":"Polluted Wastelands","ids":[{"type":"Audio","id":"10370403283"}]},{"name":"Going Nuclear","category":"Special Modes","group":"Polluted Wastelands","ids":[{"type":"Audio","id":"10235293774"}]},{"name":"Nuclear Doom (OLD)","category":"Special Modes","group":"Polluted Wastelands","ids":[{"type":"Audio","id":"4962937458"}]},{"name":"Ambiance Loop","category":"Special Modes","group":"Badlands","ids":[{"type":"Audio","id":"10981953483"}]},{"name":"Ambience Jingle","category":"Special Modes","group":"Badlands","ids":[{"type":"Audio","id":"10981954022"}]},{"name":"Gunslinging Madness","category":"Special Modes","group":"Badlands","ids":[{"type":"Intro","id":"11123633560"},{"type":"Music","id":"11123634748"}]},{"name":"Pizza ambience Intro","category":"Special Modes","group":"Pizza Party","ids":[{"type":"Audio","id":"11422568565"}]},{"name":"Pizza Ambience Loop","category":"Special Modes","group":"Pizza Party","ids":[{"type":"Audio","id":"11422571561"}]},{"name":"Wox the Fox theme","category":"Special Modes","group":"Pizza Party","ids":[{"type":"Audio","id":"11422561103"}]},{"name":"Raze the void","category":"Special Modes","group":"Hardcore Mode","ids":[{"type":"Intro","id":"6224344351"},{"type":"Music","id":"6224345054"}]},{"name":"Hardcore Wave 45","category":"Special Modes","group":"Hardcore Mode","ids":[{"type":"Audio","id":"5891331293"}]},{"name":"Hardcore Beta Theme / Scourge of the Universe TDS Remix","category":"Special Modes","group":"Hardcore Mode","ids":[{"type":"Intro","id":"5623244905"},{"type":"Music","id":"5623245304"}]},{"name":"Hardcore Lobby [Beta]","category":"Special Modes","group":"Hardcore Mode","ids":[{"type":"Audio","id":"5625061430"}]},{"name":"Hardcore Lobby","category":"Special Modes","group":"Hardcore Mode","ids":[{"type":"Intro","id":"5528932538"},{"type":"Music","id":"5528933972"}]},{"name":"Krampus","category":"Events","group":"Winter 2019","ids":[{"type":"Intro","id":"4535515922"},{"type":"Music","id":"4535515766"}]},{"name":"Krampus Rage","category":"Events","group":"Winter 2019","ids":[{"type":"Music","id":"4539908574"}]},{"name":"Duck D00M","category":"Events","group":"Spring 2020","ids":[{"type":"Intro","id":"4849024782"},{"type":"Music","id":"4849275909"}]},{"name":"Easter Ambient 1","category":"Events","group":"Spring 2020","ids":[{"type":"Intro","id":"4849008214"},{"type":"Music","id":"4849012029"}]},{"name":"JackoBot Theme","category":"Events","group":"Halloween 2019","ids":[{"type":"Audio","id":"4167322150"}]},{"name":"Spooky Hour","category":"Events","group":"Halloween 2020","ids":[{"type":"Intro","id":"5902967069"},{"type":"Music","id":"5902967539"}]},{"name":"Harvesting Season","category":"Events","group":"Halloween 2020","ids":[{"type":"Intro","id":"5899601096"},{"type":"Music","id":"5899600886"}]},{"name":"Frost Lobby","category":"Events","group":"Frost Event","ids":[{"type":"Intro","id":"6449605939"},{"type":"Music","id":"6449606611"}]},{"name":"It's Getting Frosty","category":"Events","group":"Frost Event","ids":[{"type":"Intro","id":"6197078193"},{"type":"Music","id":"6197078817"}]},{"name":"Blizzard","category":"Events","group":"Frost Event","ids":[{"type":"Intro","id":"6784156719"},{"type":"Music","id":"6764598507"}]},{"name":"FrostSpirit (Unused)","category":"Events","group":"Frost Event","ids":[{"type":"Intro","id":"6197079314"},{"type":"Music","id":"6197079853"}]},{"name":"Winter2020 (Scrapped)","category":"Events","group":"Frost Event","ids":[{"type":"Intro","id":"6001989947"},{"type":"Music","id":"6001989631"}]},{"name":"First Contact","category":"Events","group":"Solar Eclipse","ids":[{"type":"Audio","id":"7885131396"}]},{"name":"Pumpkin Shreddin’","category":"Events","group":"Solar Eclipse","ids":[{"type":"Intro","id":"7885132356"},{"type":"Music","id":"7885133555"}]},{"name":"Not-so Mystical Woods","category":"Events","group":"Solar Eclipse","ids":[{"type":"Audio","id":"7885151747"}]},{"name":"Who Lurks There?","category":"Events","group":"Solar Eclipse","ids":[{"type":"Intro","id":"7885152593"},{"type":"Music","id":"7885156831"}]},{"name":"Raid Plan","category":"Events","group":"Solar Eclipse","ids":[{"type":"Intro","id":"7902620294"},{"type":"Music","id":"7902622661"}]},{"name":"Gatekeeper","category":"Events","group":"Solar Eclipse","ids":[{"type":"Audio","id":"7902624840"}]},{"name":"Path to Totality","category":"Events","group":"Solar Eclipse","ids":[{"type":"Intro","id":"8130165061"},{"type":"Music","id":"8130165846"}]},{"name":"Totality","category":"Events","group":"Solar Eclipse","ids":[{"type":"Intro","id":"8128788599"},{"type":"Music","id":"8128792225"}]},{"name":"Duck lobby","category":"Events","group":"Ducky Event","ids":[{"type":"Audio","id":"9355404146"}]},{"name":"Ducky Boom","category":"Events","group":"Ducky Event","ids":[{"type":"Audio","id":"9358605103"}]},{"name":"Duck Hunt","category":"Events","group":"Ducky Event","ids":[{"type":"Audio","id":"9337783852"}]},{"name":"Duck Step","category":"Events","group":"Ducky Event","ids":[{"type":"Music","id":"9337825909"}]},{"name":"Lobby Music","category":"Events","group":"Violent Night","ids":[{"type":"Intro","id":"11840745101"},{"type":"Music","id":"11840745851"}]},{"name":"Cold Ambush Ambience","category":"Events","group":"Violent Night","ids":[{"type":"Audio","id":"11865514064"}]},{"name":"Carol of the Bots","category":"Events","group":"Violent Night","ids":[{"type":"Audio","id":"11840746667"}]},{"name":"Witch Hunting","category":"Events","group":"Lunar Overtures","ids":[{"type":"Intro","id":"15195554711"},{"type":"Music","id":"15195554309"}]},{"name":"Heresy!","category":"Events","group":"Lunar Overtures","ids":[{"type":"Intro","id":"15195405739"},{"type":"Music","id":"15195408640"}]},{"name":"Reignited","category":"Events","group":"Lunar Overtures","ids":[{"type":"Audio","id":"15228957331"}]},{"name":"Stardust","category":"Events","group":"Lunar Overtures","ids":[{"type":"Intro","id":"15332440250"},{"type":"Music","id":"15332440144"}]},{"name":"Lunar Overture","category":"Events","group":"Lunar Overtures","ids":[{"type":"Intro","id":"15332440400"},{"type":"Music","id":"15332440650"}]},{"name":"Lobby Music","category":"Events","group":"Christmas 2023","ids":[{"type":"Intro","id":"15644332079"},{"type":"Music","id":"15644338990"}]},{"name":"Krampus 2023 Theme","category":"Events","group":"Christmas 2023","ids":[{"type":"Intro","id":"15669255994"},{"type":"Music","id":"15669261545"}]},{"name":"Lobby Music","category":"Events","group":"The Hunt / Classic 2024","ids":[{"type":"Audio","id":"17522704713"}]},{"name":"The Hunt Theme","category":"Events","group":"The Hunt / Classic 2024","ids":[{"type":"Intro","id":"16660868285"},{"type":"Music","id":"16660871346"}]},{"name":"Classic Music","category":"Events","group":"The Hunt / Classic 2024","ids":[{"type":"Audio","id":"17583508313"}]},{"name":"Halloween Lobby","category":"Events","group":"Hexverse Event","ids":[{"type":"Intro","id":"97317224814847"},{"type":"Music","id":"80616550910346"}]},{"name":"Red Hex Temple","category":"Events","group":"Hexverse Event","ids":[{"type":"Music","id":"131286513933198"}]},{"name":"Ground Zero","category":"Events","group":"Hexverse Event","ids":[{"type":"Music","id":"110787492140326"}]},{"name":"Terror of Titus","category":"Events","group":"Hexverse Event","ids":[{"type":"Intro","id":"137552005762176"},{"type":"Music","id":"102534717722578"}]},{"name":"Hellfire","category":"Events","group":"Hexverse Event","ids":[{"type":"Intro","id":"125799565122312"},{"type":"Music","id":"99867472990588"}]},{"name":"Skream","category":"Events","group":"Hexverse Event","ids":[{"type":"Music","id":"98523242693905"}]},{"name":"Return to Ruin","category":"Events","group":"Hexverse Event","ids":[{"type":"Intro","id":"83472144640528"},{"type":"Music","id":"124165593527907"}]},{"name":"Brimstone Maledict","category":"Events","group":"Hexverse Event","ids":[{"type":"Intro","id":"128571664348667"},{"type":"Music","id":"133092723215774"}]},{"name":"Never Broke Again","category":"Events","group":"PLS Donate","ids":[{"type":"Audio","id":"130194673838065"}]},{"name":"Breaking the Bank","category":"Events","group":"PLS Donate","ids":[{"type":"Audio","id":"106120936300616"}]},{"name":"Hazem Cutscene","category":"Events","group":"PLS Donate","ids":[{"type":"Audio","id":"116112434357702"}]},{"name":"Winter Lobby","category":"Events","group":"Operation ICE / Frost Invasion 2024","ids":[{"type":"Intro","id":"81106219723497"},{"type":"Music","id":"77386814035935"}]},{"name":"Blizzard","category":"Events","group":"Operation ICE / Frost Invasion 2024","ids":[{"type":"Intro","id":"74934201363880"},{"type":"Music","id":"133795537627807"}]},{"name":"Frostbite","category":"Events","group":"Operation ICE / Frost Invasion 2024","ids":[{"type":"Intro","id":"133897679971649"},{"type":"Music","id":"73222799312307"}]},{"name":"Subzero","category":"Events","group":"Operation ICE / Frost Invasion 2024","ids":[{"type":"Intro","id":"120549293215534"},{"type":"Music","id":"80595969204221"}]},{"name":"Default DJ(NEW)","category":"DJ & Emotes","group":"DJ Music","ids":[{"type":"Audio","id":"89981571751747"}]},{"name":"Neko DJ(NEW)","category":"DJ & Emotes","group":"DJ Music","ids":[{"type":"Audio","id":"18974073018"}]},{"name":"Ghost DJ(NEW)","category":"DJ & Emotes","group":"DJ Music","ids":[{"type":"Audio","id":"84579840300642"}]},{"name":"Mako DJ","category":"DJ & Emotes","group":"DJ Music","ids":[{"type":"Audio","id":"111544109113749"}]},{"name":"Garage Band DJ","category":"DJ & Emotes","group":"DJ Music","ids":[{"type":"Audio","id":"77282537314644"}]},{"name":"Ghost DJ","category":"DJ & Emotes","group":"DJ Music","ids":[{"type":"Audio","id":"5994058479"}]},{"name":"Neko DJ","category":"DJ & Emotes","group":"DJ Music","ids":[{"type":"Audio","id":"5229282080"}]},{"name":"Neon Rave DJ","category":"DJ & Emotes","group":"DJ Music","ids":[{"type":"Audio","id":"9166992315"}]},{"name":"Default DJ","category":"DJ & Emotes","group":"DJ Music","ids":[{"type":"Audio","id":"9166994821"}]},{"name":"Plushie DJ","category":"DJ & Emotes","group":"DJ Music","ids":[{"type":"Audio","id":"11580212035"}]},{"name":"Masquerade DJ","category":"DJ & Emotes","group":"DJ Music","ids":[{"type":"Audio","id":"5899600597"}]},{"name":"Smug Emote","category":"DJ & Emotes","group":"Emotes & Dances","ids":[{"type":"Audio","id":"9166993097"}]},{"name":"Garry’s Dance","category":"DJ & Emotes","group":"Emotes & Dances","ids":[{"type":"Audio","id":"9166993681"}]},{"name":"Gang Dance","category":"DJ & Emotes","group":"Emotes & Dances","ids":[{"type":"Audio","id":"9166994018"}]},{"name":"Beggin Dance","category":"DJ & Emotes","group":"Emotes & Dances","ids":[{"type":"Audio","id":"9166995886"}]},{"name":"Charleston Dance","category":"DJ & Emotes","group":"Emotes & Dances","ids":[{"type":"Audio","id":"15124053254"}]},{"name":"Wess Dance","category":"DJ & Emotes","group":"Emotes & Dances","ids":[{"type":"Audio","id":"4583054488"}]},{"name":"Manrobics Dance","category":"DJ & Emotes","group":"Emotes & Dances","ids":[{"type":"Audio","id":"9166993858"}]},{"name":"Power Dance","category":"DJ & Emotes","group":"Emotes & Dances","ids":[{"type":"Audio","id":"9166992777"}]},{"name":"Charleston","category":"DJ & Emotes","group":"Emotes & Dances","ids":[{"type":"Audio","id":"15124053429"}]},{"name":"Footwork","category":"DJ & Emotes","group":"Emotes & Dances","ids":[{"type":"Audio","id":"15124085270"}]},{"name":"John Battle Scream 1","category":"Sound Effects & Dialogue","group":"General Sound Effects","ids":[{"type":"Audio","id":"9166995322"}]},{"name":"John Battle Scream 2","category":"Sound Effects & Dialogue","group":"General Sound Effects","ids":[{"type":"Audio","id":"9166995275"}]},{"name":"John Battle Scream 3","category":"Sound Effects & Dialogue","group":"General Sound Effects","ids":[{"type":"Audio","id":"9166995207"}]},{"name":"John Battle Scream 4","category":"Sound Effects & Dialogue","group":"General Sound Effects","ids":[{"type":"Audio","id":"916699514"}]},{"name":"John Battle Scream 5","category":"Sound Effects & Dialogue","group":"General Sound Effects","ids":[{"type":"Audio","id":"9166995143"}]},{"name":"Arsenal Announcer “Oh Yea”","category":"Sound Effects & Dialogue","group":"General Sound Effects","ids":[{"type":"Audio","id":"2750733428"}]},{"name":"Lord Sinister Laugh 1","category":"Sound Effects & Dialogue","group":"General Sound Effects","ids":[{"type":"Audio","id":"5818933916"}]},{"name":"Lord Sinister Laugh 2","category":"Sound Effects & Dialogue","group":"General Sound Effects","ids":[{"type":"Audio","id":"5899934025"}]},{"name":"\"So you're the hero\"","category":"Sound Effects & Dialogue","group":"Umbra Dialogue","ids":[{"type":"Audio","id":"8205994112"}]},{"name":"\"this world will engulf with in the dark sun\"","category":"Sound Effects & Dialogue","group":"Umbra Dialogue","ids":[{"type":"Audio","id":"8205996909"}]},{"name":"\"Power through my veins\"","category":"Sound Effects & Dialogue","group":"Umbra Dialogue","ids":[{"type":"Audio","id":"8205998012"}]},{"name":"\"Show them no mercy\"","category":"Sound Effects & Dialogue","group":"Umbra Dialogue","ids":[{"type":"Audio","id":"8205996251"}]},{"name":"\"Feast on their souls\"","category":"Sound Effects & Dialogue","group":"Umbra Dialogue","ids":[{"type":"Audio","id":"8205993275"}]},{"name":"\"IT IS TIME\"","category":"Sound Effects & Dialogue","group":"Umbra Dialogue","ids":[{"type":"Audio","id":"8205995648"}]},{"name":"\"Were you waiting for me?\"","category":"Sound Effects & Dialogue","group":"Umbra Dialogue","ids":[{"type":"Audio","id":"8205999648"}]},{"name":"\"Succumb to the dark sun\"","category":"Sound Effects & Dialogue","group":"Umbra Dialogue","ids":[{"type":"Audio","id":"8239998643"}]},{"name":"\"Dance little hero\"","category":"Sound Effects & Dialogue","group":"Umbra Dialogue","ids":[{"type":"Audio","id":"8239999078"}]},{"name":"\"Panic more for me\"","category":"Sound Effects & Dialogue","group":"Umbra Dialogue","ids":[{"type":"Audio","id":"8239997800"}]},{"name":"\"Your fear\"","category":"Sound Effects & Dialogue","group":"Umbra Dialogue","ids":[{"type":"Audio","id":"8239998447"}]},{"name":"\"Feeble ends all for nothing\"","category":"Sound Effects & Dialogue","group":"Umbra Dialogue","ids":[{"type":"Audio","id":"8239998891"}]},{"name":"\"Dying before the Turning Point\"","category":"Sound Effects & Dialogue","group":"Narrator Dialogue","ids":[{"type":"Audio","id":"15193809201"}]},{"name":"\"Dying before the Turning Point2\"","category":"Sound Effects & Dialogue","group":"Narrator Dialogue","ids":[{"type":"Audio","id":"15193809081"}]},{"name":"\"YOU! WELCOME TO OUR SHOW\"","category":"Sound Effects & Dialogue","group":"Narrator Dialogue","ids":[{"type":"Audio","id":"15193808536"}]},{"name":"\"This Power\"","category":"Sound Effects & Dialogue","group":"Narrator Dialogue","ids":[{"type":"Audio","id":"15193809838"}]},{"name":"\"Devotion\"","category":"Sound Effects & Dialogue","group":"Narrator Dialogue","ids":[{"type":"Audio","id":"15193810008"}]},{"name":"\"The Umbra\"","category":"Sound Effects & Dialogue","group":"Narrator Dialogue","ids":[{"type":"Audio","id":"15228964681"}]},{"name":"\"5:30\"","category":"Sound Effects & Dialogue","group":"Narrator Dialogue","ids":[{"type":"Audio","id":"15228964835"}]},{"name":"\"Auditions\"","category":"Sound Effects & Dialogue","group":"Narrator Dialogue","ids":[{"type":"Audio","id":"15228964778"}]},{"name":"Act1Scene1","category":"Sound Effects & Dialogue","group":"Lunar Overtures Cutscenes","ids":[{"type":"Audio","id":"15198151524"}]},{"name":"Act1Scene2","category":"Sound Effects & Dialogue","group":"Lunar Overtures Cutscenes","ids":[{"type":"Audio","id":"15198570828"}]},{"name":"Act1Scene2(Other Version)","category":"Sound Effects & Dialogue","group":"Lunar Overtures Cutscenes","ids":[{"type":"Audio","id":"15196236757"}]},{"name":"Act1Scene3","category":"Sound Effects & Dialogue","group":"Lunar Overtures Cutscenes","ids":[{"type":"Audio","id":"15204003661"}]},{"name":"Act2Scene1","category":"Sound Effects & Dialogue","group":"Lunar Overtures Cutscenes","ids":[{"type":"Audio","id":"15228957423"}]},{"name":"Scene1","category":"Sound Effects & Dialogue","group":"Operation ICE Cutscene / Dialogue","ids":[{"type":"Audio","id":"88657984543553"}]},{"name":"(Dispatcher)Siege Engines","category":"Sound Effects & Dialogue","group":"Operation ICE Cutscene / Dialogue","ids":[{"type":"Audio","id":"136666054301608"}]},{"name":"(Prof V)Keycard","category":"Sound Effects & Dialogue","group":"Operation ICE Cutscene / Dialogue","ids":[{"type":"Audio","id":"76769697653889"}]},{"name":"Frost Crate","category":"Skin Crates","group":"Frost Crate","ids":[{"type":"Intro","id":"6778911453"},{"type":"Music","id":"6778911671"}]},{"name":"Premium Crate","category":"Skin Crates","group":"Premium Crate","ids":[{"type":"Intro","id":"5621937117"},{"type":"Music","id":"5621936873"}]},{"name":"Basic Crate","category":"Skin Crates","group":"Basic Crate","ids":[{"type":"Intro","id":"5621937553"},{"type":"Music","id":"5621937321"}]},{"name":"Spooky Crate","category":"Skin Crates","group":"Spooky Crate","ids":[{"type":"Intro","id":"5902819249"},{"type":"Music","id":"5902819466"}]},{"name":"Golden Crate","category":"Skin Crates","group":"Golden Crate","ids":[{"type":"Intro","id":"5621936720"},{"type":"Music","id":"5621936589"}]}];
-    const categories = [
-      { name: 'All tracks', short: 'all', mark: '✧' },
-      { name: 'Lobby & Other', short: 'lobby', mark: '♡' },
-      { name: 'Survival Modes', short: 'survival', mark: '⚔' },
-      { name: 'Special Modes', short: 'special', mark: '✦' },
-      { name: 'Events', short: 'events', mark: '❀' },
-      { name: 'DJ & Emotes', short: 'dj', mark: '♪' },
-      { name: 'Sound Effects & Dialogue', short: 'sounds', mark: '☾' },
-      { name: 'Skin Crates', short: 'crates', mark: '✿' }
+    // Full data extracted from the supplied 12-page TDS OST Music IDs PDF (241 asset IDs).
+    // To add more entries, copy this object shape into TRACKS:
+    // {"title":"Song Title","id":"1234567890","category":"Events · Example Event","kind":"Music"}
+    const TRACKS = [
+      {"title":"Triumph Music","id":"8013047518","category":"Lobby / Other","kind":"Track"},
+      {"title":"Summer Lobby","id":"5573843996","category":"Lobby / Other","kind":"Track"},
+      {"title":"2019 Triumph Music","id":"9166996099","category":"Lobby / Other","kind":"Track"},
+      {"title":"2022 Lobby Music","id":"9744907652","category":"Lobby / Other","kind":"Track"},
+      {"title":"Solar Eclipse Lobby","id":"7653200934","category":"Lobby / Other","kind":"Track"},
+      {"title":"Spring lobby","id":"4820742275","category":"Lobby / Other","kind":"Track"},
+      {"title":"Alternative Summer (2020)","id":"5187327027","category":"Lobby / Other","kind":"Track"},
+      {"title":"Alt Alternative Summer (2020)","id":"5181923930","category":"Lobby / Other","kind":"Track"},
+      {"title":"Winter19 Lobby · Intro","id":"4496978756","category":"Lobby / Other","kind":"Intro"},
+      {"title":"Winter19 Lobby · Music","id":"4496979128","category":"Lobby / Other","kind":"Music"},
+      {"title":"Intermission Theme","id":"11880450174","category":"Lobby / Other","kind":"Track"},
+      {"title":"Old Difficulty Vote","id":"4515464807","category":"Lobby / Other","kind":"Track"},
+      {"title":"Lose Theme(2022)","id":"9734369769","category":"Lobby / Other","kind":"Track"},
+      {"title":"Lose Theme(2020)","id":"5842740900","category":"Lobby / Other","kind":"Track"},
+      {"title":"Difficulty Vote Theme","id":"9166992103","category":"Lobby / Other","kind":"Track"},
+      {"title":"Hidden Wave","id":"9166992574","category":"Lobby / Other","kind":"Track"},
+      {"title":"Metaverse","id":"6777198646","category":"Lobby / Other","kind":"Track"},
+      {"title":"Winter Solitude","id":"4539879806","category":"Lobby / Other","kind":"Track"},
+      {"title":"Tutorial Soundtrack · Intro","id":"16628978965","category":"Lobby / Other","kind":"Intro"},
+      {"title":"Tutorial Soundtrack · Music","id":"16628977350","category":"Lobby / Other","kind":"Music"},
+      {"title":"BrainRot mode Theme","id":"16973314057","category":"Lobby / Other","kind":"Track"},
+      {"title":"Grave Buster","id":"5891402100","category":"Survival Gamemodes · Easy Mode","kind":"Track"},
+      {"title":"Molten Boss OLD Theme","id":"9166995469","category":"Survival Gamemodes · Molten Mode","kind":"Track"},
+      {"title":"Meltdown","id":"10368961856","category":"Survival Gamemodes · Molten Mode","kind":"Track"},
+      {"title":"Heatwave · Intro","id":"89266506024071","category":"Survival Gamemodes · Molten Mode","kind":"Intro"},
+      {"title":"Heatwave · Music","id":"80038108540826","category":"Survival Gamemodes · Molten Mode","kind":"Music"},
+      {"title":"Infernal Torment · Intro","id":"92736487811155","category":"Survival Gamemodes · Molten Mode","kind":"Intro"},
+      {"title":"Infernal Torment · Music","id":"123963808249627","category":"Survival Gamemodes · Molten Mode","kind":"Music"},
+      {"title":"The Molten Dawn · Intro","id":"119321492814934","category":"Survival Gamemodes · Molten Mode","kind":"Intro"},
+      {"title":"The Molten Dawn · Music","id":"106762653332419","category":"Survival Gamemodes · Molten Mode","kind":"Music"},
+      {"title":"Containment Breach · Intro","id":"17372904176","category":"Survival Gamemodes · Intermediate Mode","kind":"Intro"},
+      {"title":"Containment Breach · Music","id":"17372906154","category":"Survival Gamemodes · Intermediate Mode","kind":"Music"},
+      {"title":"The Final Experiment · Intro","id":"17372907108","category":"Survival Gamemodes · Intermediate Mode","kind":"Intro"},
+      {"title":"The Final Experiment · Music","id":"17372909272","category":"Survival Gamemodes · Intermediate Mode","kind":"Music"},
+      {"title":"Synesthesia · Intro","id":"137791237433530","category":"Survival Gamemodes · Intermediate Mode","kind":"Intro"},
+      {"title":"Synesthesia · Music","id":"113823423501038","category":"Survival Gamemodes · Intermediate Mode","kind":"Music"},
+      {"title":"Biohazard · Music","id":"138460849249861","category":"Survival Gamemodes · Intermediate Mode","kind":"Music"},
+      {"title":"Oasis Plague · Intro","id":"119892588627801","category":"Survival Gamemodes · Intermediate Mode","kind":"Intro"},
+      {"title":"Oasis Plague · Music","id":"115889854397438","category":"Survival Gamemodes · Intermediate Mode","kind":"Music"},
+      {"title":"Drezzed · Music","id":"82498986275770","category":"Survival Gamemodes · Intermediate Mode","kind":"Music"},
+      {"title":"Sound the Alarm! · Intro","id":"82803817099216","category":"Survival Gamemodes · Intermediate Mode","kind":"Intro"},
+      {"title":"Sound the Alarm! · Music","id":"107538662024667","category":"Survival Gamemodes · Intermediate Mode","kind":"Music"},
+      {"title":"Funky Zombie · Music","id":"110315603393127","category":"Survival Gamemodes · Intermediate Mode","kind":"Music"},
+      {"title":"Golden Titan · Intro","id":"10368967118","category":"Survival Gamemodes · Golden Mode","kind":"Intro"},
+      {"title":"Golden Titan · Music","id":"10368968721","category":"Survival Gamemodes · Golden Mode","kind":"Music"},
+      {"title":"Fallen King OLD Theme","id":"9166994305","category":"Survival Gamemodes · Fallen Mode","kind":"Track"},
+      {"title":"Void Step · Intro","id":"10368963512","category":"Survival Gamemodes · Fallen Mode","kind":"Intro"},
+      {"title":"Void Step · Music","id":"10368965552","category":"Survival Gamemodes · Fallen Mode","kind":"Music"},
+      {"title":"Melancholy Hill · Intro","id":"18740883612","category":"Survival Gamemodes · Ambiences","kind":"Intro"},
+      {"title":"Melancholy Hill · Music","id":"18740883259","category":"Survival Gamemodes · Ambiences","kind":"Music"},
+      {"title":"Rain Dance · Intro","id":"18740928913","category":"Survival Gamemodes · Ambiences","kind":"Intro"},
+      {"title":"Rain Dance · Music","id":"18740928265","category":"Survival Gamemodes · Ambiences","kind":"Music"},
+      {"title":"Rebelution · Intro","id":"18740946313","category":"Survival Gamemodes · Ambiences","kind":"Intro"},
+      {"title":"Rebelution · Music","id":"18740945935","category":"Survival Gamemodes · Ambiences","kind":"Music"},
+      {"title":"The Horde · Intro","id":"18740974886","category":"Survival Gamemodes · Ambiences","kind":"Intro"},
+      {"title":"The Horde · Music","id":"18740973719","category":"Survival Gamemodes · Ambiences","kind":"Music"},
+      {"title":"Intro the Void","id":"18740982059","category":"Survival Gamemodes · Ambiences","kind":"Track"},
+      {"title":"Art Of War","id":"18741552753","category":"Survival Gamemodes · Ambiences","kind":"Track"},
+      {"title":"Fill Them With Lead","id":"18741757938","category":"Survival Gamemodes · Ambiences","kind":"Track"},
+      {"title":"Neuro Raze · Intro","id":"18741777652","category":"Survival Gamemodes · Ambiences","kind":"Intro"},
+      {"title":"Neuro Raze · Music","id":"18741776972","category":"Survival Gamemodes · Ambiences","kind":"Music"},
+      {"title":"Shellshock","id":"18741787613","category":"Survival Gamemodes · Ambiences","kind":"Track"},
+      {"title":"Catharsis","id":"18741856468","category":"Survival Gamemodes · Ambiences","kind":"Track"},
+      {"title":"Desolate Dystopia · Intro","id":"18741860157","category":"Survival Gamemodes · Ambiences","kind":"Intro"},
+      {"title":"Desolate Dystopia · Music","id":"18741862670","category":"Survival Gamemodes · Ambiences","kind":"Music"},
+      {"title":"Portal to Hell · Intro","id":"18741973989","category":"Survival Gamemodes · Ambiences","kind":"Intro"},
+      {"title":"Portal to Hell · Music","id":"18742060365","category":"Survival Gamemodes · Ambiences","kind":"Music"},
+      {"title":"Equinox · Intro","id":"18667693236","category":"Survival Gamemodes · Hidden Wave","kind":"Intro"},
+      {"title":"Equinox · Music","id":"18667692957","category":"Survival Gamemodes · Hidden Wave","kind":"Music"},
+      {"title":"Hidden Wave Intro · Intro","id":"18710495830","category":"Survival Gamemodes · Hidden Wave","kind":"Intro"},
+      {"title":"Hidden Wave Intro · Music","id":"18710495452","category":"Survival Gamemodes · Hidden Wave","kind":"Music"},
+      {"title":"They’re Mutated","id":"10368958054","category":"Special Gamemodes · Polluted Wastelands","kind":"Track"},
+      {"title":"Waste Water","id":"10370403283","category":"Special Gamemodes · Polluted Wastelands","kind":"Track"},
+      {"title":"Going Nuclear","id":"10235293774","category":"Special Gamemodes · Polluted Wastelands","kind":"Track"},
+      {"title":"Nuclear Doom (OLD)","id":"4962937458","category":"Special Gamemodes · Polluted Wastelands","kind":"Track"},
+      {"title":"Ambiance Loop","id":"10981953483","category":"Special Gamemodes · Badlands","kind":"Track"},
+      {"title":"Ambience Jingle","id":"10981954022","category":"Special Gamemodes · Badlands","kind":"Track"},
+      {"title":"Gunslinging Madness · Intro","id":"11123633560","category":"Special Gamemodes · Badlands","kind":"Intro"},
+      {"title":"Gunslinging Madness · Music","id":"11123634748","category":"Special Gamemodes · Badlands","kind":"Music"},
+      {"title":"Pizza ambience Intro","id":"11422568565","category":"Special Gamemodes · Pizza Party","kind":"Track"},
+      {"title":"Pizza Ambience Loop","id":"11422571561","category":"Special Gamemodes · Pizza Party","kind":"Track"},
+      {"title":"Wox the Fox theme","id":"11422561103","category":"Special Gamemodes · Pizza Party","kind":"Track"},
+      {"title":"Raze the void · Intro","id":"6224344351","category":"Special Gamemodes · Hardcore","kind":"Intro"},
+      {"title":"Raze the void · Music","id":"6224345054","category":"Special Gamemodes · Hardcore","kind":"Music"},
+      {"title":"Hardcore Wave 45","id":"5891331293","category":"Special Gamemodes · Hardcore","kind":"Track"},
+      {"title":"Hardcore Beta Theme / Scourge of the Universe TDS Remix · Intro","id":"5623244905","category":"Special Gamemodes · Hardcore","kind":"Intro"},
+      {"title":"Hardcore Beta Theme / Scourge of the Universe TDS Remix · Music","id":"5623245304","category":"Special Gamemodes · Hardcore","kind":"Music"},
+      {"title":"Hardcore Lobby [Beta]","id":"5625061430","category":"Special Gamemodes · Hardcore","kind":"Track"},
+      {"title":"Hardcore Lobby · Intro","id":"5528932538","category":"Special Gamemodes · Hardcore","kind":"Intro"},
+      {"title":"Hardcore Lobby · Music","id":"5528933972","category":"Special Gamemodes · Hardcore","kind":"Music"},
+      {"title":"Krampus · Intro","id":"4535515922","category":"Events · Winter 2019","kind":"Intro"},
+      {"title":"Krampus · Music","id":"4535515766","category":"Events · Winter 2019","kind":"Music"},
+      {"title":"Krampus Rage · Music","id":"4539908574","category":"Events · Winter 2019","kind":"Music"},
+      {"title":"Duck D00M · Intro","id":"4849024782","category":"Events · Spring 2020","kind":"Intro"},
+      {"title":"Duck D00M · Music","id":"4849275909","category":"Events · Spring 2020","kind":"Music"},
+      {"title":"Easter Ambient 1 · Intro","id":"4849008214","category":"Events · Spring 2020","kind":"Intro"},
+      {"title":"Easter Ambient 1 · Music","id":"4849012029","category":"Events · Spring 2020","kind":"Music"},
+      {"title":"JackoBot Theme","id":"4167322150","category":"Events · Halloween 2019","kind":"Track"},
+      {"title":"Spooky Hour · Intro","id":"5902967069","category":"Events · Halloween 2020","kind":"Intro"},
+      {"title":"Spooky Hour · Music","id":"5902967539","category":"Events · Halloween 2020","kind":"Music"},
+      {"title":"Harvesting Season · Intro","id":"5899601096","category":"Events · Halloween 2020","kind":"Intro"},
+      {"title":"Harvesting Season · Music","id":"5899600886","category":"Events · Halloween 2020","kind":"Music"},
+      {"title":"Frost Lobby · Intro","id":"6449605939","category":"Events · Frost Event","kind":"Intro"},
+      {"title":"Frost Lobby · Music","id":"6449606611","category":"Events · Frost Event","kind":"Music"},
+      {"title":"It's Getting Frosty · Intro","id":"6197078193","category":"Events · Frost Event","kind":"Intro"},
+      {"title":"It's Getting Frosty · Music","id":"6197078817","category":"Events · Frost Event","kind":"Music"},
+      {"title":"Blizzard · Intro","id":"6784156719","category":"Events · Frost Event","kind":"Intro"},
+      {"title":"Blizzard · Music","id":"6764598507","category":"Events · Frost Event","kind":"Music"},
+      {"title":"FrostSpirit (Unused) · Intro","id":"6197079314","category":"Events · Frost Event","kind":"Intro"},
+      {"title":"FrostSpirit (Unused) · Music","id":"6197079853","category":"Events · Frost Event","kind":"Music"},
+      {"title":"Winter2020 (Scrapped) · Intro","id":"6001989947","category":"Events · Frost Event","kind":"Intro"},
+      {"title":"Winter2020 (Scrapped) · Music","id":"6001989631","category":"Events · Frost Event","kind":"Music"},
+      {"title":"First Contact","id":"7885131396","category":"Events · Solar Eclipse","kind":"Track"},
+      {"title":"Pumpkin Shreddin’ · Intro","id":"7885132356","category":"Events · Solar Eclipse","kind":"Intro"},
+      {"title":"Pumpkin Shreddin’ · Music","id":"7885133555","category":"Events · Solar Eclipse","kind":"Music"},
+      {"title":"Not-so Mystical Woods","id":"7885151747","category":"Events · Solar Eclipse","kind":"Track"},
+      {"title":"Who Lurks There? · Intro","id":"7885152593","category":"Events · Solar Eclipse","kind":"Intro"},
+      {"title":"Who Lurks There? · Music","id":"7885156831","category":"Events · Solar Eclipse","kind":"Music"},
+      {"title":"Raid Plan · Intro","id":"7902620294","category":"Events · Solar Eclipse","kind":"Intro"},
+      {"title":"Raid Plan · Music","id":"7902622661","category":"Events · Solar Eclipse","kind":"Music"},
+      {"title":"Gatekeeper","id":"7902624840","category":"Events · Solar Eclipse","kind":"Track"},
+      {"title":"Path to Totality · Intro","id":"8130165061","category":"Events · Solar Eclipse","kind":"Intro"},
+      {"title":"Path to Totality · Music","id":"8130165846","category":"Events · Solar Eclipse","kind":"Music"},
+      {"title":"Totality · Intro","id":"8128788599","category":"Events · Solar Eclipse","kind":"Intro"},
+      {"title":"Totality · Music","id":"8128792225","category":"Events · Solar Eclipse","kind":"Music"},
+      {"title":"Duck lobby","id":"9355404146","category":"Events · Ducky Event","kind":"Track"},
+      {"title":"Ducky Boom","id":"9358605103","category":"Events · Ducky Event","kind":"Track"},
+      {"title":"Duck Hunt","id":"9337783852","category":"Events · Ducky Event","kind":"Track"},
+      {"title":"Duck Step · Music","id":"9337825909","category":"Events · Ducky Event","kind":"Music"},
+      {"title":"Lobby Music · Intro","id":"11840745101","category":"Events · Violent Night","kind":"Intro"},
+      {"title":"Lobby Music · Music","id":"11840745851","category":"Events · Violent Night","kind":"Music"},
+      {"title":"Cold Ambush Ambience","id":"11865514064","category":"Events · Violent Night","kind":"Track"},
+      {"title":"Carol of the Bots","id":"11840746667","category":"Events · Violent Night","kind":"Track"},
+      {"title":"Witch Hunting · Intro","id":"15195554711","category":"Events · Lunar Overtures","kind":"Intro"},
+      {"title":"Witch Hunting · Music","id":"15195554309","category":"Events · Lunar Overtures","kind":"Music"},
+      {"title":"Heresy! · Intro","id":"15195405739","category":"Events · Lunar Overtures","kind":"Intro"},
+      {"title":"Heresy! · Music","id":"15195408640","category":"Events · Lunar Overtures","kind":"Music"},
+      {"title":"Reignited","id":"15228957331","category":"Events · Lunar Overtures","kind":"Track"},
+      {"title":"Stardust · Intro","id":"15332440250","category":"Events · Lunar Overtures","kind":"Intro"},
+      {"title":"Stardust · Music","id":"15332440144","category":"Events · Lunar Overtures","kind":"Music"},
+      {"title":"Lunar Overture · Intro","id":"15332440400","category":"Events · Lunar Overtures","kind":"Intro"},
+      {"title":"Lunar Overture · Music","id":"15332440650","category":"Events · Lunar Overtures","kind":"Music"},
+      {"title":"Lobby Music · Intro","id":"15644332079","category":"Events · Christmas 2023","kind":"Intro"},
+      {"title":"Lobby Music · Music","id":"15644338990","category":"Events · Christmas 2023","kind":"Music"},
+      {"title":"Krampus 2023 Theme · Intro","id":"15669255994","category":"Events · Christmas 2023","kind":"Intro"},
+      {"title":"Krampus 2023 Theme · Music","id":"15669261545","category":"Events · Christmas 2023","kind":"Music"},
+      {"title":"Lobby Music","id":"17522704713","category":"Events · The Hunt / Classic 2024","kind":"Track"},
+      {"title":"The Hunt Theme · Intro","id":"16660868285","category":"Events · The Hunt / Classic 2024","kind":"Intro"},
+      {"title":"The Hunt Theme · Music","id":"16660871346","category":"Events · The Hunt / Classic 2024","kind":"Music"},
+      {"title":"Classic Music","id":"17583508313","category":"Events · The Hunt / Classic 2024","kind":"Track"},
+      {"title":"Halloween Lobby · Intro","id":"97317224814847","category":"Events · Hexverse Event","kind":"Intro"},
+      {"title":"Halloween Lobby · Music","id":"80616550910346","category":"Events · Hexverse Event","kind":"Music"},
+      {"title":"Red Hex Temple · Music","id":"131286513933198","category":"Events · Hexverse Event","kind":"Music"},
+      {"title":"Ground Zero · Music","id":"110787492140326","category":"Events · Hexverse Event","kind":"Music"},
+      {"title":"Terror of Titus · Intro","id":"137552005762176","category":"Events · Hexverse Event","kind":"Intro"},
+      {"title":"Terror of Titus · Music","id":"102534717722578","category":"Events · Hexverse Event","kind":"Music"},
+      {"title":"Hellfire · Intro","id":"125799565122312","category":"Events · Hexverse Event","kind":"Intro"},
+      {"title":"Hellfire · Music","id":"99867472990588","category":"Events · Hexverse Event","kind":"Music"},
+      {"title":"Skream · Music","id":"98523242693905","category":"Events · Hexverse Event","kind":"Music"},
+      {"title":"Return to Ruin · Intro","id":"83472144640528","category":"Events · Hexverse Event","kind":"Intro"},
+      {"title":"Return to Ruin · Music","id":"124165593527907","category":"Events · Hexverse Event","kind":"Music"},
+      {"title":"Brimstone Maledict · Intro","id":"128571664348667","category":"Events · Hexverse Event","kind":"Intro"},
+      {"title":"Brimstone Maledict · Music","id":"133092723215774","category":"Events · Hexverse Event","kind":"Music"},
+      {"title":"Never Broke Again","id":"130194673838065","category":"Events · PLS Donate","kind":"Track"},
+      {"title":"Breaking the Bank","id":"106120936300616","category":"Events · PLS Donate","kind":"Track"},
+      {"title":"Hazem Cutscene","id":"116112434357702","category":"Events · PLS Donate","kind":"Track"},
+      {"title":"Winter Lobby · Intro","id":"81106219723497","category":"Events · Operation ICE / Frost Invasion 2024","kind":"Intro"},
+      {"title":"Winter Lobby · Music","id":"77386814035935","category":"Events · Operation ICE / Frost Invasion 2024","kind":"Music"},
+      {"title":"Blizzard · Intro","id":"74934201363880","category":"Events · Operation ICE / Frost Invasion 2024","kind":"Intro"},
+      {"title":"Blizzard · Music","id":"133795537627807","category":"Events · Operation ICE / Frost Invasion 2024","kind":"Music"},
+      {"title":"Frostbite · Intro","id":"133897679971649","category":"Events · Operation ICE / Frost Invasion 2024","kind":"Intro"},
+      {"title":"Frostbite · Music","id":"73222799312307","category":"Events · Operation ICE / Frost Invasion 2024","kind":"Music"},
+      {"title":"Subzero · Intro","id":"120549293215534","category":"Events · Operation ICE / Frost Invasion 2024","kind":"Intro"},
+      {"title":"Subzero · Music","id":"80595969204221","category":"Events · Operation ICE / Frost Invasion 2024","kind":"Music"},
+      {"title":"Default DJ(NEW)","id":"89981571751747","category":"DJ & Emotes · DJ Music","kind":"Track"},
+      {"title":"Neko DJ(NEW)","id":"18974073018","category":"DJ & Emotes · DJ Music","kind":"Track"},
+      {"title":"Ghost DJ(NEW)","id":"84579840300642","category":"DJ & Emotes · DJ Music","kind":"Track"},
+      {"title":"Mako DJ","id":"111544109113749","category":"DJ & Emotes · DJ Music","kind":"Track"},
+      {"title":"Garage Band DJ","id":"77282537314644","category":"DJ & Emotes · DJ Music","kind":"Track"},
+      {"title":"Ghost DJ","id":"5994058479","category":"DJ & Emotes · DJ Music","kind":"Track"},
+      {"title":"Neko DJ","id":"5229282080","category":"DJ & Emotes · DJ Music","kind":"Track"},
+      {"title":"Neon Rave DJ","id":"9166992315","category":"DJ & Emotes · DJ Music","kind":"Track"},
+      {"title":"Default DJ","id":"9166994821","category":"DJ & Emotes · DJ Music","kind":"Track"},
+      {"title":"Plushie DJ","id":"11580212035","category":"DJ & Emotes · DJ Music","kind":"Track"},
+      {"title":"Masquerade DJ","id":"5899600597","category":"DJ & Emotes · DJ Music","kind":"Track"},
+      {"title":"Smug Emote","id":"9166993097","category":"DJ & Emotes · DJ Music","kind":"Track"},
+      {"title":"Garry’s Dance","id":"9166993681","category":"DJ & Emotes · DJ Music","kind":"Track"},
+      {"title":"Gang Dance","id":"9166994018","category":"DJ & Emotes · DJ Music","kind":"Track"},
+      {"title":"Beggin Dance","id":"9166995886","category":"DJ & Emotes · DJ Music","kind":"Track"},
+      {"title":"Charleston Dance","id":"15124053254","category":"DJ & Emotes · DJ Music","kind":"Track"},
+      {"title":"Wess Dance","id":"4583054488","category":"DJ & Emotes · DJ Music","kind":"Track"},
+      {"title":"Manrobics Dance","id":"9166993858","category":"DJ & Emotes · DJ Music","kind":"Track"},
+      {"title":"Power Dance","id":"9166992777","category":"DJ & Emotes · DJ Music","kind":"Track"},
+      {"title":"Charleston","id":"15124053429","category":"DJ & Emotes · DJ Music","kind":"Track"},
+      {"title":"Footwork","id":"15124085270","category":"DJ & Emotes · DJ Music","kind":"Track"},
+      {"title":"John Battle Scream 1","id":"9166995322","category":"Sound Effects & Dialogue","kind":"Track"},
+      {"title":"John Battle Scream 2","id":"9166995275","category":"Sound Effects & Dialogue","kind":"Track"},
+      {"title":"John Battle Scream 3","id":"9166995207","category":"Sound Effects & Dialogue","kind":"Track"},
+      {"title":"John Battle Scream 4","id":"916699514","category":"Sound Effects & Dialogue","kind":"Track"},
+      {"title":"John Battle Scream 5","id":"9166995143","category":"Sound Effects & Dialogue","kind":"Track"},
+      {"title":"Arsenal Announcer “Oh Yea”","id":"2750733428","category":"Sound Effects & Dialogue","kind":"Track"},
+      {"title":"Lord Sinister Laugh 1","id":"5818933916","category":"Sound Effects & Dialogue","kind":"Track"},
+      {"title":"Lord Sinister Laugh 2","id":"5899934025","category":"Sound Effects & Dialogue","kind":"Track"},
+      {"title":"\"So you're the hero\"","id":"8205994112","category":"Sound Effects & Dialogue · Umbra","kind":"Track"},
+      {"title":"\"this world will engulf with in the dark sun\"","id":"8205996909","category":"Sound Effects & Dialogue · Umbra","kind":"Track"},
+      {"title":"\"Power through my veins\"","id":"8205998012","category":"Sound Effects & Dialogue · Umbra","kind":"Track"},
+      {"title":"\"Show them no mercy\"","id":"8205996251","category":"Sound Effects & Dialogue · Umbra","kind":"Track"},
+      {"title":"\"Feast on their souls\"","id":"8205993275","category":"Sound Effects & Dialogue · Umbra","kind":"Track"},
+      {"title":"\"IT IS TIME\"","id":"8205995648","category":"Sound Effects & Dialogue · Umbra","kind":"Track"},
+      {"title":"\"Were you waiting for me?\"","id":"8205999648","category":"Sound Effects & Dialogue · Umbra","kind":"Track"},
+      {"title":"\"Succumb to the dark sun\"","id":"8239998643","category":"Sound Effects & Dialogue · Umbra","kind":"Track"},
+      {"title":"\"Dance little hero\"","id":"8239999078","category":"Sound Effects & Dialogue · Umbra","kind":"Track"},
+      {"title":"\"Panic more for me\"","id":"8239997800","category":"Sound Effects & Dialogue · Umbra","kind":"Track"},
+      {"title":"\"Your fear\"","id":"8239998447","category":"Sound Effects & Dialogue · Umbra","kind":"Track"},
+      {"title":"\"Feeble ends all for nothing\"","id":"8239998891","category":"Sound Effects & Dialogue · Umbra","kind":"Track"},
+      {"title":"\"Dying before the Turning Point\"","id":"15193809201","category":"Sound Effects & Dialogue · Narrator","kind":"Track"},
+      {"title":"\"Dying before the Turning Point2\"","id":"15193809081","category":"Sound Effects & Dialogue · Narrator","kind":"Track"},
+      {"title":"\"YOU! WELCOME TO OUR SHOW\"","id":"15193808536","category":"Sound Effects & Dialogue · Narrator","kind":"Track"},
+      {"title":"\"This Power\"","id":"15193809838","category":"Sound Effects & Dialogue · Narrator","kind":"Track"},
+      {"title":"\"Devotion\"","id":"15193810008","category":"Sound Effects & Dialogue · Narrator","kind":"Track"},
+      {"title":"\"The Umbra\"","id":"15228964681","category":"Sound Effects & Dialogue · Narrator","kind":"Track"},
+      {"title":"\"5:30\"","id":"15228964835","category":"Sound Effects & Dialogue · Narrator","kind":"Track"},
+      {"title":"\"Auditions\"","id":"15228964778","category":"Sound Effects & Dialogue · Narrator","kind":"Track"},
+      {"title":"Act1Scene1","id":"15198151524","category":"Sound Effects & Dialogue · Lunar Overtures Cutscenes","kind":"Track"},
+      {"title":"Act1Scene2","id":"15198570828","category":"Sound Effects & Dialogue · Lunar Overtures Cutscenes","kind":"Track"},
+      {"title":"Act1Scene2(Other Version)","id":"15196236757","category":"Sound Effects & Dialogue · Lunar Overtures Cutscenes","kind":"Track"},
+      {"title":"Act1Scene3","id":"15204003661","category":"Sound Effects & Dialogue · Lunar Overtures Cutscenes","kind":"Track"},
+      {"title":"Act2Scene1","id":"15228957423","category":"Sound Effects & Dialogue · Lunar Overtures Cutscenes","kind":"Track"},
+      {"title":"Scene1","id":"88657984543553","category":"Sound Effects & Dialogue · Operation ICE Dialogue","kind":"Track"},
+      {"title":"(Dispatcher)Siege Engines","id":"136666054301608","category":"Sound Effects & Dialogue · Operation ICE Dialogue","kind":"Track"},
+      {"title":"(Prof V)Keycard","id":"76769697653889","category":"Sound Effects & Dialogue · Operation ICE Dialogue","kind":"Track"},
+      {"title":"Frost Crate · Intro","id":"6778911453","category":"Skin Crates · Frost Crate","kind":"Intro"},
+      {"title":"Frost Crate · Music","id":"6778911671","category":"Skin Crates · Frost Crate","kind":"Music"},
+      {"title":"Premium Crate · Intro","id":"5621937117","category":"Skin Crates · Premium Crate","kind":"Intro"},
+      {"title":"Premium Crate · Music","id":"5621936873","category":"Skin Crates · Premium Crate","kind":"Music"},
+      {"title":"Basic Crate · Intro","id":"5621937553","category":"Skin Crates · Basic Crate","kind":"Intro"},
+      {"title":"Basic Crate · Music","id":"5621937321","category":"Skin Crates · Basic Crate","kind":"Music"},
+      {"title":"Spooky Crate · Intro","id":"5902819249","category":"Skin Crates · Spooky Crate","kind":"Intro"},
+      {"title":"Spooky Crate · Music","id":"5902819466","category":"Skin Crates · Spooky Crate","kind":"Music"},
+      {"title":"Golden Crate · Intro","id":"5621936720","category":"Skin Crates · Golden Crate","kind":"Intro"},
+      {"title":"Golden Crate · Music","id":"5621936589","category":"Skin Crates · Golden Crate","kind":"Music"}
     ];
-    const state = { category: 'All tracks', group: 'all', query: '', favoritesOnly: false, favorites: new Set(), spotlight: null };
-    const $ = (selector) => document.querySelector(selector);
-    const grid = $('#trackGrid');
-    const searchInput = $('#searchInput');
-    const groupSelect = $('#groupSelect');
-    const norm = (value) => String(value ?? '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[’‘]/g, "'").replace(/[–—]/g, '-');
-    const escapeHtml = (value) => String(value).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
-    const totalIds = tracks.reduce((sum, track) => sum + track.ids.length, 0);
-    $('#heroIds').textContent = totalIds;
-    $('#heroTracks').textContent = tracks.length;
+
+    const state = { query: "", category: "All audio", favoritesOnly: false, favorites: new Set() };
+    const categories = ["All audio", "Lobby / Other", "Survival Gamemodes", "Special Gamemodes", "Events", "DJ & Emotes", "Sound Effects & Dialogue", "Skin Crates"];
+    const grid = document.getElementById("trackGrid");
+    const categoryBar = document.getElementById("categoryBar");
+    const searchInput = document.getElementById("searchInput");
+    const resultCount = document.getElementById("resultCount");
+    const resultSub = document.getElementById("resultSub");
+    const bubble = document.getElementById("speechBubble");
+    const toast = document.getElementById("toast");
+    const sparkleLayer = document.getElementById("sparkleLayer");
+    const favoritesToggle = document.getElementById("favoritesToggle");
+    let toastTimer;
+
+    document.getElementById("heroCount").textContent = TRACKS.length.toLocaleString();
 
     try {
-      const stored = JSON.parse(localStorage.getItem('tds-atelier-favorites') || '[]');
-      state.favorites = new Set(Array.isArray(stored) ? stored : []);
+      const stored = JSON.parse(localStorage.getItem("tds-sound-garden-favorites") || "[]");
+      state.favorites = new Set(Array.isArray(stored) ? stored.map(String) : []);
     } catch (_) { state.favorites = new Set(); }
 
-    function matches(track) {
-      if (state.category !== 'All tracks' && track.category !== state.category) return false;
-      if (state.group !== 'all' && track.group !== state.group) return false;
-      if (state.favoritesOnly && !state.favorites.has(keyFor(track))) return false;
-      if (!state.query) return true;
-      const haystack = norm([track.name, track.category, track.group, ...track.ids.flatMap(item => [item.id, item.type])].join(' '));
-      return haystack.includes(norm(state.query).trim());
+    function escapeHTML(value) {
+      return String(value).replace(/[&<>"']/g, ch => ({"&":"&amp;", "<":"&lt;", ">":"&gt;", "\"":"&quot;", "'":"&#39;"}[ch]));
     }
-    function keyFor(track) { return `${track.category}::${track.group}::${track.name}`; }
-    function filteredTracks() { return tracks.filter(matches); }
-    function filteredIdCount(items) { return items.reduce((sum, track) => sum + track.ids.length, 0); }
+
+    function categoryMatches(track, activeCategory) {
+      return activeCategory === "All audio" || track.category === activeCategory || track.category.startsWith(activeCategory + " · ");
+    }
+
+    function filteredTracks() {
+      const q = state.query.trim().toLowerCase();
+      return TRACKS.filter(track => {
+        const matchesQuery = !q || `${track.title} ${track.category} ${track.id} ${track.kind}`.toLowerCase().includes(q);
+        return matchesQuery && categoryMatches(track, state.category) && (!state.favoritesOnly || state.favorites.has(track.id));
+      });
+    }
 
     function renderCategories() {
-      const row = $('#categoryRow');
-      row.innerHTML = categories.map(category => {
-        const count = category.name === 'All tracks' ? tracks.length : tracks.filter(track => track.category === category.name).length;
-        const active = state.category === category.name ? ' active' : '';
-        return `<button class="category-chip${active}" type="button" data-category="${escapeHtml(category.name)}" aria-pressed="${state.category === category.name}"><span>${category.mark}</span><span>${escapeHtml(category.name)}</span><span class="chip-count">${count}</span></button>`;
-      }).join('');
+      categoryBar.innerHTML = categories.map(category => {
+        const count = category === "All audio" ? TRACKS.length : TRACKS.filter(track => track.category === category || track.category.startsWith(category + " · ")).length;
+        const active = state.category === category;
+        return `<button type="button" class="category-chip${active ? " active" : ""}" data-category="${escapeHTML(category)}" aria-pressed="${active}">${escapeHTML(category)} <span>${count}</span></button>`;
+      }).join("");
     }
 
-    function renderGroups() {
-      const validTracks = state.category === 'All tracks' ? tracks : tracks.filter(track => track.category === state.category);
-      const groups = [...new Set(validTracks.map(track => track.group).filter(Boolean))];
-      if (state.group !== 'all' && !groups.includes(state.group)) state.group = 'all';
-      groupSelect.innerHTML = `<option value="all">all subcategories</option>` + groups.map(group => `<option value="${escapeHtml(group)}" ${state.group === group ? 'selected' : ''}>${escapeHtml(group)}</option>`).join('');
-      groupSelect.value = state.group;
-    }
-
-    function idRow(idItem, track) {
-      const label = idItem.type === 'Audio' ? 'audio id' : idItem.type;
-      const url = `https://create.roblox.com/store/asset/${encodeURIComponent(idItem.id)}`;
-      return `<div class="id-row">
-        <div class="id-main"><span class="id-type">${escapeHtml(label)}</span><span class="id-number">${escapeHtml(idItem.id)}</span></div>
-        <div class="id-actions">
-          <button class="mini-btn copy" type="button" data-copy-id="${escapeHtml(idItem.id)}" aria-label="copy ${escapeHtml(idItem.id)}" title="copy id">▣</button>
-          <a class="mini-btn" href="${url}" target="_blank" rel="noopener noreferrer" aria-label="open asset ${escapeHtml(idItem.id)} in roblox" title="open roblox asset">↗</a>
-        </div>
-      </div>`;
-    }
-
-    function cardHtml(track, index) {
-      const key = keyFor(track);
-      const isSaved = state.favorites.has(key);
-      const ids = track.ids.map(id => `${track.name} · ${id.type === 'Audio' ? 'Audio' : id.type}: ${id.id}`).join('\n');
-      const label = track.category === 'Sound Effects & Dialogue' ? 'sound / dialogue' : track.category;
-      return `<article class="track-card${state.spotlight === key ? ' spotlight' : ''}" data-card-key="${escapeHtml(key)}" id="track-${index}">
-        <div class="card-head">
-          <div style="min-width:0"><span class="track-overline">${escapeHtml(label)}</span><h3 class="track-name">${escapeHtml(track.name)}</h3><span class="track-group">${escapeHtml(track.group || 'general')}</span></div>
-          <button class="favorite-btn${isSaved ? ' saved' : ''}" type="button" data-favorite="${escapeHtml(key)}" aria-label="${isSaved ? 'remove saved track' : 'save track'}" aria-pressed="${isSaved}" title="${isSaved ? 'remove from saved tracks' : 'save track'}">${isSaved ? '♥' : '♡'}</button>
-        </div>
-        <div class="ids">${track.ids.map(item => idRow(item, track)).join('')}</div>
-        <div class="card-bottom"><span class="id-total">${track.ids.length} ${track.ids.length === 1 ? 'id' : 'ids'} in this track</span><button class="copy-track" type="button" data-copy-track="${escapeHtml(key)}">copy ${track.ids.length > 1 ? 'both ids' : 'id'} ↗</button></div>
+    function cardMarkup(track, index) {
+      const isFavorite = state.favorites.has(track.id);
+      const categoryLabel = track.category.replace(" · ", " / ");
+      const safeTitle = escapeHTML(track.title);
+      const safeCategory = escapeHTML(categoryLabel);
+      const safeKind = escapeHTML(track.kind === "Track" ? "audio" : track.kind);
+      return `<article class="track-card" id="track-${track.id}" style="animation-delay:${Math.min(index * 24, 240)}ms">
+        <div class="track-top"><span class="track-kicker">sound treasure no. ${String(index + 1).padStart(3, "0")}</span><span class="kind-badge">${safeKind}</span></div>
+        <h3 class="track-title">${safeTitle}</h3>
+        <div class="track-category">${safeCategory}</div>
+        <div class="id-label">roblox asset id</div>
+        <button type="button" class="id-bubble" data-copy="${track.id}" aria-label="Copy Roblox asset ID ${track.id}"><span class="id-number">${track.id}</span><span class="copy-mark" aria-hidden="true">♡</span></button>
+        <div class="card-bottom"><button type="button" class="copy-button" data-copy="${track.id}">copy ID ✦</button><button type="button" class="favorite-button${isFavorite ? " is-favorite" : ""}" data-favorite="${track.id}" aria-label="${isFavorite ? "Remove from" : "Add to"} favorites" aria-pressed="${isFavorite}">${isFavorite ? "♥" : "♡"}</button></div>
       </article>`;
     }
 
-    function render() {
-      renderCategories();
-      renderGroups();
-      const items = filteredTracks();
-      const ids = filteredIdCount(items);
-      $('#resultCount').innerHTML = `<strong>${items.length}</strong> ${items.length === 1 ? 'track' : 'tracks'} · <strong>${ids}</strong> ${ids === 1 ? 'id' : 'ids'}`;
-      $('#favoriteCount').textContent = state.favorites.size;
-      $('#favoritesToggle').classList.toggle('active', state.favoritesOnly);
-      $('#favoritesToggle').setAttribute('aria-pressed', String(state.favoritesOnly));
-      $('#favoritesToggle').innerHTML = `${state.favoritesOnly ? '♥ showing saved tracks' : '♡ show saved tracks'} <span id="favoriteCount">${state.favorites.size}</span>`;
-      if (!items.length) {
-        grid.innerHTML = `<div class="empty-state"><div class="empty-emoji">૮ ˶ᵔ ᵕ ᵔ˶ ა</div><h3>no tracks in this little corner</h3><p>try another search, shelf, or saved-tracks setting</p><button class="action-btn" id="clearFiltersBtn" type="button">reset the filters ♡</button></div>`;
+    function renderTracks() {
+      const tracks = filteredTracks();
+      resultCount.textContent = `${tracks.length.toLocaleString()} ${tracks.length === 1 ? "track" : "tracks"}`;
+      resultSub.textContent = state.favoritesOnly ? "your personally saved little favorites" : state.query ? `matching “${state.query.trim()}” in titles, categories, and IDs` : "little treasures for your custom DJ";
+      if (!tracks.length) {
+        grid.innerHTML = `<div class="empty-state"><div class="empty-heart">♡</div><h3>no songs in this little corner yet</h3><p>try a shorter search, switch collections, or clear your filters.<br>your playlist destiny is still out there.</p></div>`;
         return;
       }
-      grid.innerHTML = items.map(cardHtml).join('');
+      grid.innerHTML = tracks.map(cardMarkup).join("");
     }
 
-    let toastTimer;
-    function toast(message) {
-      const node = $('#toast');
-      node.textContent = message;
-      node.classList.add('show');
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => node.classList.remove('show'), 2200);
+    function setSpeech(message) {
+      bubble.textContent = message;
+      bubble.classList.remove("pop");
+      void bubble.offsetWidth;
+      bubble.classList.add("pop");
+      window.setTimeout(() => bubble.classList.remove("pop"), 600);
     }
-    async function copyText(value, successMessage) {
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      window.clearTimeout(toastTimer);
+      toastTimer = window.setTimeout(() => toast.classList.remove("show"), 1900);
+    }
+
+    function sparkleAt(x, y) {
+      const symbols = ["✦", "♡", "✧", "♥", "✦", "·"];
+      for (let i = 0; i < 9; i++) {
+        const node = document.createElement("span");
+        node.className = "sparkle";
+        node.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        node.style.left = `${x + (Math.random() * 42 - 21)}px`;
+        node.style.top = `${y + (Math.random() * 26 - 13)}px`;
+        node.style.setProperty("--dx", `${Math.random() * 100 - 50}px`);
+        node.style.setProperty("--dy", `${-24 - Math.random() * 58}px`);
+        node.style.animationDelay = `${Math.random() * 90}ms`;
+        sparkleLayer.appendChild(node);
+        window.setTimeout(() => node.remove(), 1000);
+      }
+    }
+
+    async function copyAssetId(id, sourceButton) {
+      let copied = false;
       try {
         if (navigator.clipboard && window.isSecureContext) {
-          await navigator.clipboard.writeText(value);
-        } else {
-          const field = document.createElement('textarea');
-          field.value = value;
-          field.setAttribute('readonly', '');
-          field.style.position = 'fixed';
-          field.style.top = '-1000px';
-          document.body.appendChild(field);
-          field.select();
-          const copied = document.execCommand('copy');
-          field.remove();
-          if (!copied) throw new Error('clipboard fallback failed');
+          await navigator.clipboard.writeText(String(id));
+          copied = true;
         }
-        toast(successMessage);
-      } catch (_) {
-        toast('copy was blocked by the browser. try opening this page in your browser ♡');
+      } catch (_) { /* fall through to the compatibility method */ }
+      if (!copied) {
+        const temporary = document.createElement("textarea");
+        temporary.value = String(id);
+        temporary.setAttribute("readonly", "");
+        temporary.style.position = "fixed";
+        temporary.style.opacity = "0";
+        temporary.style.pointerEvents = "none";
+        document.body.appendChild(temporary);
+        temporary.select();
+        try { copied = document.execCommand("copy"); } catch (_) { copied = false; }
+        temporary.remove();
       }
-    }
-    function saveFavorites() {
-      try { localStorage.setItem('tds-atelier-favorites', JSON.stringify([...state.favorites])); } catch (_) {}
-    }
-    function resetFilters() {
-      state.category = 'All tracks';
-      state.group = 'all';
-      state.query = '';
-      state.favoritesOnly = false;
-      state.spotlight = null;
-      searchInput.value = '';
-      render();
+      const message = copied ? `copied ${id} to clipboard! ~nya ♡` : `asset ID: ${id} · select and copy it ♡`;
+      setSpeech(copied ? "copied to clipboard! ~nya! ♡" : "your ID is ready to copy, cutie! ♡");
+      showToast(message);
+      const rect = sourceButton.getBoundingClientRect();
+      sparkleAt(rect.left + rect.width / 2, rect.top + rect.height / 2);
     }
 
-    searchInput.addEventListener('input', () => { state.query = searchInput.value; state.spotlight = null; render(); });
-    groupSelect.addEventListener('change', () => { state.group = groupSelect.value; state.spotlight = null; render(); });
-    $('#categoryRow').addEventListener('click', (event) => {
-      const button = event.target.closest('[data-category]');
+    function saveFavorites() {
+      try { localStorage.setItem("tds-sound-garden-favorites", JSON.stringify([...state.favorites])); } catch (_) { /* favorites still work for this page session */ }
+    }
+
+    function refresh() {
+      renderCategories();
+      renderTracks();
+      favoritesToggle.classList.toggle("active", state.favoritesOnly);
+      favoritesToggle.setAttribute("aria-pressed", String(state.favoritesOnly));
+    }
+
+    categoryBar.addEventListener("click", event => {
+      const button = event.target.closest("[data-category]");
       if (!button) return;
       state.category = button.dataset.category;
-      state.group = 'all';
-      state.spotlight = null;
-      render();
+      refresh();
+      setSpeech(state.category === "All audio" ? "the whole playlist garden is open! ♡" : `let's explore ${state.category.toLowerCase()} together! ✧`);
     });
-    $('#favoritesToggle').addEventListener('click', () => { state.favoritesOnly = !state.favoritesOnly; render(); });
-    $('#copyVisibleBtn').addEventListener('click', () => {
-      const items = filteredTracks();
-      if (!items.length) { toast('there are no ids to copy yet ♡'); return; }
-      const text = items.flatMap(track => track.ids.map(item => `${track.name} [${item.type}]: ${item.id}`)).join('\n');
-      copyText(text, `copied ${filteredIdCount(items)} ids to your clipboard ♡`);
-    });
-    $('#randomBtn').addEventListener('click', () => {
-      const items = filteredTracks();
-      if (!items.length) { toast('no tracks to surprise you with yet ♡'); return; }
-      const selected = items[Math.floor(Math.random() * items.length)];
-      state.spotlight = keyFor(selected);
-      render();
-      const card = [...document.querySelectorAll('[data-card-key]')].find(node => node.dataset.cardKey === state.spotlight);
-      if (card) {
-        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        toast(`♪ ${selected.name} ♪`);
-      }
-    });
-    grid.addEventListener('click', (event) => {
-      const copyButton = event.target.closest('[data-copy-id]');
-      if (copyButton) { copyText(copyButton.dataset.copyId, 'id copied ♡'); return; }
-      const copyTrackButton = event.target.closest('[data-copy-track]');
-      if (copyTrackButton) {
-        const track = tracks.find(item => keyFor(item) === copyTrackButton.dataset.copyTrack);
-        if (track) copyText(track.ids.map(item => `${track.name} [${item.type}]: ${item.id}`).join('\n'), `copied ${track.ids.length} ${track.ids.length === 1 ? 'id' : 'ids'} ♡`);
+
+    grid.addEventListener("click", event => {
+      const copyButton = event.target.closest("[data-copy]");
+      if (copyButton) {
+        copyAssetId(copyButton.dataset.copy, copyButton);
         return;
       }
-      const favoriteButton = event.target.closest('[data-favorite]');
+      const favoriteButton = event.target.closest("[data-favorite]");
       if (favoriteButton) {
-        const key = favoriteButton.dataset.favorite;
-        if (state.favorites.has(key)) state.favorites.delete(key); else state.favorites.add(key);
+        const id = favoriteButton.dataset.favorite;
+        if (state.favorites.has(id)) {
+          state.favorites.delete(id);
+          setSpeech("a favorite was unfavorited. no hard feelings, nya ♡");
+        } else {
+          state.favorites.add(id);
+          setSpeech("saved to your favorites! so sparkly ✧");
+        }
         saveFavorites();
-        render();
-      }
-      if (event.target.closest('#clearFiltersBtn')) resetFilters();
-    });
-    grid.addEventListener('click', (event) => {
-      if (event.target.closest('#clearFiltersBtn')) resetFilters();
-    });
-    document.addEventListener('keydown', (event) => {
-      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
-        event.preventDefault(); searchInput.focus(); searchInput.select();
-      }
-      if (event.key === 'Escape' && document.activeElement === searchInput) {
-        searchInput.value = ''; state.query = ''; render();
+        refresh();
       }
     });
-    render();
+
+    searchInput.addEventListener("input", () => {
+      state.query = searchInput.value;
+      renderTracks();
+      if (state.query.trim()) setSpeech("searching the sound garden for you... ♡");
+    });
+
+    favoritesToggle.addEventListener("click", () => {
+      state.favoritesOnly = !state.favoritesOnly;
+      refresh();
+      setSpeech(state.favoritesOnly ? "only your heart-picked tracks, coming right up! ♡" : "all the sounds are back! ✧");
+    });
+
+    document.getElementById("clearButton").addEventListener("click", () => {
+      state.query = "";
+      state.category = "All audio";
+      state.favoritesOnly = false;
+      searchInput.value = "";
+      refresh();
+      setSpeech("fresh start! pick any tune you like ♡");
+      searchInput.focus();
+    });
+
+    document.getElementById("randomButton").addEventListener("click", () => {
+      const pool = filteredTracks();
+      if (!pool.length) {
+        setSpeech("hmm, this shelf is empty. let's clear a filter? ♡");
+        showToast("no tracks to surprise you with yet ♡");
+        return;
+      }
+      const pick = pool[Math.floor(Math.random() * pool.length)];
+      setSpeech(`today's tiny DJ pick: ${pick.title} ♡`);
+      const card = document.getElementById(`track-${pick.id}`);
+      if (card) {
+        card.scrollIntoView({ behavior: "smooth", block: "center" });
+        card.animate([{ transform: "scale(1)" }, { transform: "scale(1.025)" }, { transform: "scale(1)" }], { duration: 650, easing: "ease-out" });
+        const rect = card.getBoundingClientRect();
+        sparkleAt(rect.left + rect.width / 2, rect.top + 30);
+      }
+    });
+
+    // A gentle rotating hello, paused naturally when reduced motion is requested.
+    const greetings = ["ready to blast some beats? ♡", "your next favorite might be one click away ✧", "pink vibes, boss themes, zero hassle ♡", "pick a vibe and let's go nya ✦"];
+    let greetingIndex = 0;
+    window.setInterval(() => {
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        greetingIndex = (greetingIndex + 1) % greetings.length;
+        if (!bubble.classList.contains("pop")) bubble.textContent = greetings[greetingIndex];
+      }
+    }, 6500);
+
+    refresh();
   </script>
 </body>
 </html>
